@@ -18,17 +18,12 @@ public class Algorithm {    /* GA parameters */
         Population newPopulation = new Population(pop.size(), false);
 
         // Keep our best individual
+        Individual[] bestIndividuals = pop.getFittest(elitismOffset);
         for (int i = 0; i < elitismOffset; i++) {
-            newPopulation.saveIndividual(i, pop.getFittest());
+            newPopulation.saveIndividual(i, bestIndividuals[i]);
         }
 
         // Crossover population
-//        int elitismOffset;
-//        if (isElitism) {
-//            elitismOffset = 1;
-//        } else {
-//            elitismOffset = 0;
-//        }
         // Loop over the population size and create new individuals with
         // crossover
         for (int i = elitismOffset; i < pop.size(); i++) {

@@ -30,15 +30,33 @@ public class Population {
         return individuals[index];
     }
 
+
     public Individual getFittest() {
-        Individual fittest = individuals[0];
-        // Loop through individuals to find fittest
+        return getFittest(1)[0];
+    }
+    public Individual[] getFittest(int nIndividuals) {
+
+        double[] fitnessValues = new double[size()];
         for (int i = 0; i < size(); i++) {
-            if (fittest.getFitness() <= getIndividual(i).getFitness()) {
-                fittest = getIndividual(i);
-            }
+            fitnessValues[i] = individuals[i].getFitness();
         }
-        return fittest;
+
+        Individual[] selectedIndividuals = new Individual[nIndividuals];
+
+        for (int i = 0; i < nIndividuals; i++) {
+            double max = Integer.MIN_VALUE;
+            int index = 0;
+            for (int j = 0; j < size(); j++) {
+                if(fitnessValues[j] > max) {
+                    max = fitnessValues[j];
+                    index = j;
+                    fitnessValues[j] = Integer.MIN_VALUE;
+                }
+            }
+            selectedIndividuals[i] = individuals[index];
+        }
+
+        return selectedIndividuals;
     }
 
     /* Public methods */

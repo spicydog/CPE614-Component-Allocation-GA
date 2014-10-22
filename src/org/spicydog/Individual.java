@@ -1,5 +1,7 @@
 package org.spicydog;
 
+import static org.spicydog.Utility.log;
+
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
@@ -10,7 +12,7 @@ public class Individual {
 
     private boolean[] genes = new boolean[defaultGeneLength];
     // Cache
-    private int fitness = 0;
+    private double fitness = 0;
 
     // Create a random individual
     public void generateIndividual() {
@@ -39,7 +41,7 @@ public class Individual {
         return genes.length;
     }
 
-    public int getFitness() {
+    public double getFitness() {
         if (fitness == 0) {
             fitness = FitnessCalc.getFitness(this);
         }
@@ -48,10 +50,10 @@ public class Individual {
 
     @Override
     public String toString() {
-        String geneString = "";
+        StringBuilder geneString = new StringBuilder();
         for (int i = 0; i < size(); i++) {
-            geneString += getGene(i)?"1":"0";
+            geneString.append(getGene(i)?"1":"0");
         }
-        return geneString;
+        return geneString.toString();
     }
 }
