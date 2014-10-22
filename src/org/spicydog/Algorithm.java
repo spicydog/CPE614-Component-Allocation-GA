@@ -67,8 +67,7 @@ public class Algorithm {    /* GA parameters */
         for (int i = 0; i < indiv.size(); i++) {
             if (Math.random() <= mutationRate) {
                 // Create random gene
-                byte gene = (byte) Math.round(Math.random());
-                indiv.setGene(i, gene);
+                indiv.setGene(i, Utility.booleanRandom());
             }
         }
     }

@@ -6,6 +6,11 @@ package org.spicydog;
 
 public class Utility {
 
+    public static boolean booleanRandom() {
+        int gene = (int) Math.round(Math.random());
+        return gene==1;
+    }
+
     public static void log(String msg) {
         System.out.println(msg);
     }

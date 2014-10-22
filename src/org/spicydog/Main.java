@@ -1,12 +1,14 @@
 package org.spicydog;
 
+import static org.spicydog.Utility.log;
+
 public class Main {
 
 
     public static void main(String[] args) {
         // Set a candidate solution
 
-        FitnessCalc.setSolution(Config.solution);
+        FitnessCalc.setSolution(Utility.convertStringToBooleans(Config.solution));
 
         // Create an initial population
         Population myPop = new Population(Config.defaultPopulationSize, true);
@@ -15,13 +17,13 @@ public class Main {
         int generationCount = 0;
         while (myPop.getFittest().getFitness() < FitnessCalc.getMaxFitness()) {
             generationCount++;
-            System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness());
+            log("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness());
             myPop = Algorithm.evolvePopulation(myPop);
         }
-        System.out.println("Solution found!");
-        System.out.println("Generation: " + generationCount);
-        System.out.println("Genes:");
-        System.out.println(myPop.getFittest());
+        log("Solution found!");
+        log("Generation: " + generationCount);
+        log("Genes:");
+        System.out.println( myPop.getFittest().toString() );
 
     }
 }

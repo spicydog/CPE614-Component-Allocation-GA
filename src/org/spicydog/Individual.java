@@ -8,15 +8,14 @@ public class Individual {
 
     static int defaultGeneLength = Config.defaultGeneLength;
 
-    private byte[] genes = new byte[defaultGeneLength];
+    private boolean[] genes = new boolean[defaultGeneLength];
     // Cache
     private int fitness = 0;
 
     // Create a random individual
     public void generateIndividual() {
         for (int i = 0; i < size(); i++) {
-            byte gene = (byte) Math.round(Math.random());
-            genes[i] = gene;
+            genes[i] = Utility.booleanRandom();
         }
     }
 
@@ -26,11 +25,11 @@ public class Individual {
         defaultGeneLength = length;
     }
 
-    public byte getGene(int index) {
+    public boolean getGene(int index) {
         return genes[index];
     }
 
-    public void setGene(int index, byte value) {
+    public void setGene(int index, boolean value) {
         genes[index] = value;
         fitness = 0;
     }
@@ -51,7 +50,7 @@ public class Individual {
     public String toString() {
         String geneString = "";
         for (int i = 0; i < size(); i++) {
-            geneString += getGene(i);
+            geneString += getGene(i)?"1":"0";
         }
         return geneString;
     }
