@@ -6,6 +6,7 @@ package org.spicydog;
  */
 public class FitnessCalc {
 
+
     private static boolean[] solution = new boolean[Config.defaultGeneLength];
 
     /* Public methods */
