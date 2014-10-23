@@ -11,7 +11,7 @@ public class Main {
         //FitnessCalc.setSolution(Utility.convertStringToBooleans(Config.solution));
 
         double fitness = 0;
-int r = 0;
+        int r = 0;
         while (fitness==0) {
 
             // Create an initial population

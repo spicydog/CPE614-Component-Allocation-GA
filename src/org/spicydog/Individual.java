@@ -13,12 +13,15 @@ public class Individual {
     private boolean[] genes = new boolean[defaultGeneLength];
     // Cache
     private double fitness = 0;
+    private boolean isGeneChanged;
 
     // Create a random individual
     public void generateIndividual() {
         for (int i = 0; i < size(); i++) {
             genes[i] = Utility.booleanRandom();
         }
+        this.repair();
+        isGeneChanged = true;
     }
 
     /* Getters and setters */
@@ -42,7 +45,7 @@ public class Individual {
 
     public void setGene(int index, boolean value) {
         genes[index] = value;
-        fitness = 0;
+        isGeneChanged = true;
     }
 
     /* Public methods */
@@ -51,8 +54,9 @@ public class Individual {
     }
 
     public double getFitness() {
-        if (fitness == 0) {
+        if (isGeneChanged) {
             fitness = FitnessCalc.getFitness(this);
+            isGeneChanged = false;
         }
         return fitness;
     }
@@ -72,5 +76,57 @@ public class Individual {
             result[i] = getGene(i);
         }
         return result;
+    }
+
+
+
+    public void repair() {
+
+        int[] popToRemove = new int[this.size()];
+        int pop;
+        for (int i = 0; i < Config.nSubsystem; i++) {
+
+            // Hardware
+            pop = 0;
+            for (int j = 0; j < 3; j++) {
+                int indexHardware = i * 7 + j;
+                boolean isHardwareSelected = this.getGene(indexHardware);
+                if(isHardwareSelected)
+                    pop++;
+            }
+            for (int j = 0; j < 3; j++) {
+                int indexHardware = i * 7 + j;
+                popToRemove[indexHardware] = pop;
+            }
+
+            // Software
+            pop = 0;
+            for (int k = 0; k < 4; k++) {
+                int indexSoftware = i * 7 + 3 + k;
+                boolean isSoftwareSelected = this.getGene(indexSoftware);
+                if(isSoftwareSelected)
+                    pop++;
+            }
+            for (int k = 0; k < 4; k++) { // Software
+                int indexSoftware = i * 7 + 3 + k;
+                popToRemove[indexSoftware] = pop;
+            }
+        }
+
+
+        double[] swapRate;
+        if(this.getCost()<Config.maxCost)
+            swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
+        else
+            swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
+
+        for (int i = 0; i < this.size(); i++) {
+
+            double random = Math.random();
+
+            if(swapRate[ popToRemove[i] ] > random) {
+                this.setGene(i, !this.getGene(i));
+            }
+        }
     }
 }

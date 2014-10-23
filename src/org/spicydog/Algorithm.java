@@ -30,13 +30,14 @@ public class Algorithm {    /* GA parameters */
             Individual indiv1 = tournamentSelection(pop);
             Individual indiv2 = tournamentSelection(pop);
             Individual newIndiv = crossover(indiv1, indiv2);
+            newIndiv.repair();
             newPopulation.saveIndividual(i, newIndiv);
         }
 
         // Mutate population
-        // FIXME check here
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
-            mutate(newPopulation.getIndividual(i));
+            Individual newIndividual =  mutate(newPopulation.getIndividual(i));
+            newIndividual.repair();
         }
 
         return newPopulation;
@@ -58,7 +59,7 @@ public class Algorithm {    /* GA parameters */
     }
 
     // Mutate an individual
-    private static void mutate(Individual indiv) {
+    private static Individual mutate(Individual indiv) {
         // Loop through genes
         for (int i = 0; i < indiv.size(); i++) {
             if (Math.random() <= mutationRate) {
@@ -66,6 +67,7 @@ public class Algorithm {    /* GA parameters */
                 indiv.setGene(i, Utility.booleanRandom());
             }
         }
+        return indiv;
     }
 
     // Select individuals for crossover
