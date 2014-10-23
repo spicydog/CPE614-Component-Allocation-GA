@@ -18,6 +18,12 @@ public class FitnessCalc {
         // Loop through our individuals genes and compare them to our cadidates
 
 
+//        for (int i = 0; i < 50; i++) {
+//            if(!isPassConstrain(individual)) {
+//                individual.repair();
+//            }
+//        }
+
         if(!isPassConstrain(individual)) {
             return 0;
         }

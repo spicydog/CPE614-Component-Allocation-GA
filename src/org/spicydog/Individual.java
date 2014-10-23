@@ -48,6 +48,10 @@ public class Individual {
         isGeneChanged = true;
     }
 
+    public void swapGene(int index) {
+        this.setGene(index,!this.getGene(index));
+    }
+
     /* Public methods */
     public int size() {
         return genes.length;
@@ -82,50 +86,60 @@ public class Individual {
 
     public void repair() {
 
-        int[] popToRemove = new int[this.size()];
-        int pop;
+
+        int[] counts = new int[this.size()];
+        int count;
+        int nComponent = Config.nHardware + Config.nSoftware;
+        int nHardware = Config.nHardware;
+        int nSoftware = Config.nSoftware;
+        boolean isShouldRepair = false;
         for (int i = 0; i < Config.nSubsystem; i++) {
 
             // Hardware
-            pop = 0;
-            for (int j = 0; j < 3; j++) {
-                int indexHardware = i * 7 + j;
+            count = 0;
+            for (int j = 0; j < nHardware; j++) {
+                int indexHardware = i * nComponent + j;
                 boolean isHardwareSelected = this.getGene(indexHardware);
                 if(isHardwareSelected)
-                    pop++;
+                    count++;
             }
-            for (int j = 0; j < 3; j++) {
-                int indexHardware = i * 7 + j;
-                popToRemove[indexHardware] = pop;
+            for (int j = 0; j < nHardware; j++) {
+                int indexHardware = i * nComponent + j;
+                counts[indexHardware] = count;
             }
+            if(count==0)
+                isShouldRepair = true;
+
 
             // Software
-            pop = 0;
-            for (int k = 0; k < 4; k++) {
-                int indexSoftware = i * 7 + 3 + k;
+            count = 0;
+            for (int k = 0; k < nSoftware; k++) {
+                int indexSoftware = i * nComponent + nHardware + k;
                 boolean isSoftwareSelected = this.getGene(indexSoftware);
                 if(isSoftwareSelected)
-                    pop++;
+                    count++;
             }
-            for (int k = 0; k < 4; k++) { // Software
-                int indexSoftware = i * 7 + 3 + k;
-                popToRemove[indexSoftware] = pop;
+            for (int k = 0; k < nSoftware; k++) { // Software
+                int indexSoftware = i * nComponent + nHardware + k;
+                counts[indexSoftware] = count;
             }
+            if(count==0)
+                isShouldRepair = true;
         }
 
+        // There will be 3 cases here
+        // 1. Subsystem has no component, we should add a component
+        // 2. The cost is to high, we have to reduce components
+        // 3. Case 1 occurs then case 2 occurs
 
-        double[] swapRate;
-        if(this.getCost()<Config.maxCost)
-            swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
-        else
-            swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
+        if(FitnessCalc.isPassConstrain(this) && !isShouldRepair)
+            return;
 
+        double[] swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
         for (int i = 0; i < this.size(); i++) {
-
             double random = Math.random();
-
-            if(swapRate[ popToRemove[i] ] > random) {
-                this.setGene(i, !this.getGene(i));
+            if(swapRate[ counts[i] ] > random) {
+                swapGene(i);
             }
         }
     }

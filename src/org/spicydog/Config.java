@@ -20,6 +20,9 @@ public class Config {
     protected static int nSubsystem = 6;
 
 
+    protected static int nHardware = 3;
+    protected static int nSoftware = 4;
+
     protected static double maxCost = 180;
 
                                              // HW1    HW2    HW3    SW1    SW2    SW3    SW4
