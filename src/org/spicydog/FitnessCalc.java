@@ -8,13 +8,13 @@ import static org.spicydog.Utility.log;
  */
 public class FitnessCalc {
 
+    static Individual repairIndividual(Individual individual) {
+        individual.generateIndividual();
+        return individual;
+    }
 
-    //private static boolean[] solution = new boolean[Config.defaultGeneLength];
-
-    /* Public methods */
-    // Set a candidate solution as a byte array
-    public static void setSolution(boolean[] newSolution) {
-        //solution = newSolution;
+    static boolean isPassConstrain(Individual individual) {
+        return individual.getCost() <= Config.maxCost;
     }
 
     // Calculate inidividuals fittness by comparing it to our candidate solution
@@ -22,44 +22,50 @@ public class FitnessCalc {
         double fitness = 0;
         // Loop through our individuals genes and compare them to our cadidates
 
-        double sumCost = 0;
-        for (int i = 0; i < Config.defaultGeneLength; i++) {
-            double cost = 0;
-            if(individual.getGene(i))
-                cost = Config.cost[i];
-            sumCost += cost;
+        for (int i = 0; i < 50; i++) {
+            if(!isPassConstrain(individual)) {
+                individual = repairIndividual(individual);
+            }
         }
 
-        double R = 0;
-        if(sumCost<Config.maxCost) {
+        if(!isPassConstrain(individual)) {
+            return -1;
+        }
+
+        double R = 1;
             R = 1;
             for (int i = 0; i < Config.nSubsystem; i++) {
-                double Ri = 0;
+
+                double Rhw = 1;
                 for (int j = 0; j < 3; j++) { // Hardware
-                    for (int k = 0; k < 4; k++) { // Software
-                        int indexHardware = i * 7 + j;
-                        int indexSoftware = i * 7 + 3 + k;
-                        boolean isHardwareSelected = individual.getGene(indexHardware);
-                        boolean isSoftwareSelected = individual.getGene(indexSoftware);
-                        if (isHardwareSelected && isSoftwareSelected) {
-                            Ri += Config.reliability[indexHardware] * Config.reliability[indexSoftware];
-                        }
+                    int indexHardware = i * 7 + j;
+                    boolean isHardwareSelected = individual.getGene(indexHardware);
+                    if(isHardwareSelected) {
+                        double hardwareReliability = Config.reliability[indexHardware];
+                        Rhw *= (1-hardwareReliability);
                     }
-                    log("xxx"+Ri);
                 }
+                Rhw = 1-Rhw;
+
+
+                double Rsw = 1;
+                for (int k = 0; k < 4; k++) { // Software
+                    int indexSoftware = i * 7 + 3 + k;
+                    boolean isSoftwareSelected = individual.getGene(indexSoftware);
+                    if (isSoftwareSelected) {
+                        double softwareReliability = Config.reliability[indexSoftware];
+                        Rsw *= (1-softwareReliability);
+                    }
+                }
+                Rsw = 1-Rsw;
+
+                double Ri = Rhw * Rsw;
                 R *= Ri;
             }
-        } else {
-            return 0;
-        }
+
         fitness = R;
 
         return fitness;
     }
 
-    // Get optimum fitness
-    static double getMaxFitness() {
-        int maxFitness = Integer.MAX_VALUE;
-        return maxFitness;
-    }
 }

@@ -31,6 +31,15 @@ public class Individual {
         return genes[index];
     }
 
+    public double getCost() {
+        double sumCost = 0;
+        for (int i = 0; i < Config.defaultGeneLength; i++) {
+            if(this.getGene(i))
+                sumCost += Config.cost[i];
+        }
+        return sumCost;
+    }
+
     public void setGene(int index, boolean value) {
         genes[index] = value;
         fitness = 0;
@@ -55,5 +64,13 @@ public class Individual {
             geneString.append(getGene(i)?"1":"0");
         }
         return geneString.toString();
+    }
+
+    public boolean[] toBooleans() {
+        boolean[] result = new boolean[size()];
+        for (int i = 0; i < size(); i++) {
+            result[i] = getGene(i);
+        }
+        return result;
     }
 }

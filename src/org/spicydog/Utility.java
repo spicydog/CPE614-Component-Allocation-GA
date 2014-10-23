@@ -15,6 +15,31 @@ public class Utility {
         System.out.println(msg);
     }
 
+    public static String printSysteom(boolean[] system) {
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < Config.nSubsystem; i++) {
+            for (int j = 0; j < 3; j++) { // Hardware
+                int indexHardware = i * 7 + j;
+                if(system[indexHardware]) {
+                    output.append("1");
+                } else {
+                    output.append("0");
+                }
+            }
+            output.append(" ");
+            for (int k = 0; k < 4; k++) { // Software
+                int indexSoftware = i * 7 + 3 + k;
+                if(system[indexSoftware]) {
+                    output.append("1");
+                } else {
+                    output.append("0");
+                }
+            }
+            output.append("\n");
+        }
+        return output.toString();
+    }
+
     public static boolean[] convertStringToBooleans(String str) {
         int length = str.length();
         boolean[] result = new boolean[length];

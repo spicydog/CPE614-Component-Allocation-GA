@@ -66,7 +66,7 @@ public class Population {
     }
 
     // Save individual
-    public void saveIndividual(int index, Individual indiv) {
-        individuals[index] = indiv;
+    public void saveIndividual(int index, Individual individual) {
+        individuals[index] = individual;
     }
 }
