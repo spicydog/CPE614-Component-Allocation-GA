@@ -34,6 +34,7 @@ public class Algorithm {    /* GA parameters */
         }
 
         // Mutate population
+        // FIXME check here
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
             mutate(newPopulation.getIndividual(i));
         }

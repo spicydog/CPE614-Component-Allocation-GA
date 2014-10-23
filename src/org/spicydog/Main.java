@@ -22,7 +22,7 @@ int r = 0;
 
             for (int i = 0; i < Config.nGeneration; i++) {
                 generationCount++;
-                //log("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness());
+                log("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness());
                 myPop = Algorithm.evolvePopulation(myPop);
             }
 
