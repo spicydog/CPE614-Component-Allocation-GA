@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) {
         // Set a candidate solution
 
-        //FitnessCalc.setSolution(Utility.convertStringToBooleans(Config.solution));
 
         double fittess = 0;
         double lastFittess = fittess;

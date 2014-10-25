@@ -131,8 +131,7 @@ public class Individual {
 
         double[] swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
         for (int i = 0; i < this.size(); i++) {
-            double random = Math.random();
-            if(swapRate[ counts[i] ] > random) {
+            if(Math.random() < swapRate[ counts[i] ]) {
                 swapGene(i);
             }
         }

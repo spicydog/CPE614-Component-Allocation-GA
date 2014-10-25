@@ -17,7 +17,7 @@ public class Config {
 
 
 
-    protected static int nGeneration = 10000;
+    protected static int nGeneration = 1000;
     protected static int nSubsystem = 6;
 
 

@@ -38,7 +38,8 @@ public class Algorithm {    /* GA parameters */
 
         // Mutate population
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
-            Individual newIndividual =  mutate(newPopulation.getIndividual(i));
+            Individual newIndividual = newPopulation.getIndividual(i);
+            newIndividual =  mutate(newIndividual);
             newIndividual.repair();
             newPopulation.saveIndividual(i, newIndividual);
         }
