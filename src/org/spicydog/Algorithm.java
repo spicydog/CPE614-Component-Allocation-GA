@@ -1,16 +1,14 @@
 package org.spicydog;
 
-import static org.spicydog.Utility.log;
-
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
  */
 public class Algorithm {    /* GA parameters */
-    private static double uniformRate = Config.defaultUniformRate;
-    private static double mutationRate = Config.defaultMutationRate;
-    private static int tournamentSize = Config.defaultTournamentSize;
-    private static int elitismOffset = Config.defaultElitismOffset;
+    private static double uniformRate = Config.crossoverUniformRate;
+    private static double mutationRate = Config.mutationRate;
+    private static int tournamentSize = Config.tournamentSize;
+    private static int elitismOffset = Config.elitismSize;
 
 
     /* Public methods */
@@ -54,7 +52,7 @@ public class Algorithm {    /* GA parameters */
     // Crossover individuals 1
     private static Individual crossover(Individual indiv1, Individual indiv2) {
         Individual newSol = new Individual();
-        if(Math.random() <= Config.defaultCrossoverRate) {
+        if(Math.random() <= Config.crossoverRate) {
             // Loop through genes
             for (int i = 0; i < indiv1.size(); i++) {
                 // Crossover
@@ -102,5 +100,66 @@ public class Algorithm {    /* GA parameters */
         }
         // Get the fittest
         return tournament.getFittest();
+    }
+
+
+
+    public static void repair(Individual individual) {
+
+        int[] counts = new int[individual.size()];
+        int count;
+        int nComponent = Config.nHardware + Config.nSoftware;
+        int nHardware = Config.nHardware;
+        int nSoftware = Config.nSoftware;
+        boolean isShouldRepair = false;
+        for (int i = 0; i < Config.nSubsystem; i++) {
+
+            // Hardware
+            count = 0;
+            for (int j = 0; j < nHardware; j++) {
+                int indexHardware = i * nComponent + j;
+                boolean isHardwareSelected = individual.getGene(indexHardware);
+                if(isHardwareSelected)
+                    count++;
+            }
+            for (int j = 0; j < nHardware; j++) {
+                int indexHardware = i * nComponent + j;
+                counts[indexHardware] = count;
+            }
+            if(count==0)
+                isShouldRepair = true;
+
+
+            // Software
+            count = 0;
+            for (int k = 0; k < nSoftware; k++) {
+                int indexSoftware = i * nComponent + nHardware + k;
+                boolean isSoftwareSelected = individual.getGene(indexSoftware);
+                if(isSoftwareSelected)
+                    count++;
+            }
+            for (int k = 0; k < nSoftware; k++) { // Software
+                int indexSoftware = i * nComponent + nHardware + k;
+                counts[indexSoftware] = count;
+            }
+            if(count==0)
+                isShouldRepair = true;
+        }
+
+        // There will be 3 cases here
+        // 1. Subsystem has no component, we should add a component
+        // 2. The cost is to high, we have to reduce components
+        // 3. Case 1 occurs then case 2 occurs
+
+        if(Calculator.isPassConstrain(individual) && !isShouldRepair)
+            return;
+
+        double[] swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
+        for (int i = 0; i < individual.size(); i++) {
+            if(Math.random() < swapRate[ counts[i] ]) {
+                individual.swapGene(i);
+            }
+        }
+
     }
 }

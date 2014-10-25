@@ -15,12 +15,12 @@ public class Main {
         int bestGeneration = 0;
 
         // Create an initial population
-        Population myPopulation = new Population(Config.defaultPopulationSize, true);
+        Population myPopulation = new Population(Config.populationSize, true);
 
         // Evolve our population until we reach an optimum solution
         int generationCount = 0;
 
-        for (int i = 0; i < Config.nGeneration; i++) {
+        for (int i = 0; i < Config.maxGeneration; i++) {
             generationCount++;
             fittess = myPopulation.getFittest().getFitness();
             if(fittess>lastFittess) {

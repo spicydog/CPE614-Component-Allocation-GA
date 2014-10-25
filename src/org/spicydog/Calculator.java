@@ -1,15 +1,22 @@
 package org.spicydog;
 
-import static org.spicydog.Utility.log;
-
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
  */
-public class FitnessCalc {
+public class Calculator {
 
     static boolean isPassConstrain(Individual individual) {
         return individual.getCost() <= Config.maxCost;
+    }
+
+    static double getCost(Individual individual) {
+        double sumCost = 0;
+        for (int i = 0; i < Config.geneLength; i++) {
+            if(individual.getGene(i))
+                sumCost += Config.cost[i];
+        }
+        return sumCost;
     }
 
     // Calculate inidividuals fittness by comparing it to our candidate solution

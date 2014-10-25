@@ -6,7 +6,7 @@ package org.spicydog;
  */
 public class Individual {
 
-    static int defaultGeneLength = Config.defaultGeneLength;
+    static int defaultGeneLength = Config.geneLength;
 
     private boolean[] genes = new boolean[defaultGeneLength];
     // Cache
@@ -19,7 +19,7 @@ public class Individual {
 
     public Individual(Individual individual) {
         for (int i = 0; i < size(); i++) {
-            setGene(i,individual.getGene(i));
+            setGene(i, individual.getGene(i));
         }
     }
 
@@ -38,12 +38,7 @@ public class Individual {
     }
 
     public double getCost() {
-        double sumCost = 0;
-        for (int i = 0; i < Config.defaultGeneLength; i++) {
-            if(this.getGene(i))
-                sumCost += Config.cost[i];
-        }
-        return sumCost;
+        return Calculator.getCost(this);
     }
 
     public void setGene(int index, boolean value) {
@@ -61,7 +56,7 @@ public class Individual {
 
     public double getFitness() {
         if (isGeneChanged) {
-            fitness = FitnessCalc.getFitness(this);
+            fitness = Calculator.getFitness(this);
             isGeneChanged = false;
         }
         return fitness;
@@ -84,64 +79,7 @@ public class Individual {
         return result;
     }
 
-
-
     public void repair() {
-
-        int[] counts = new int[this.size()];
-        int count;
-        int nComponent = Config.nHardware + Config.nSoftware;
-        int nHardware = Config.nHardware;
-        int nSoftware = Config.nSoftware;
-        boolean isShouldRepair = false;
-        for (int i = 0; i < Config.nSubsystem; i++) {
-
-            // Hardware
-            count = 0;
-            for (int j = 0; j < nHardware; j++) {
-                int indexHardware = i * nComponent + j;
-                boolean isHardwareSelected = this.getGene(indexHardware);
-                if(isHardwareSelected)
-                    count++;
-            }
-            for (int j = 0; j < nHardware; j++) {
-                int indexHardware = i * nComponent + j;
-                counts[indexHardware] = count;
-            }
-            if(count==0)
-                isShouldRepair = true;
-
-
-            // Software
-            count = 0;
-            for (int k = 0; k < nSoftware; k++) {
-                int indexSoftware = i * nComponent + nHardware + k;
-                boolean isSoftwareSelected = this.getGene(indexSoftware);
-                if(isSoftwareSelected)
-                    count++;
-            }
-            for (int k = 0; k < nSoftware; k++) { // Software
-                int indexSoftware = i * nComponent + nHardware + k;
-                counts[indexSoftware] = count;
-            }
-            if(count==0)
-                isShouldRepair = true;
-        }
-
-        // There will be 3 cases here
-        // 1. Subsystem has no component, we should add a component
-        // 2. The cost is to high, we have to reduce components
-        // 3. Case 1 occurs then case 2 occurs
-
-        if(FitnessCalc.isPassConstrain(this) && !isShouldRepair)
-            return;
-
-        double[] swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
-        for (int i = 0; i < this.size(); i++) {
-            if(Math.random() < swapRate[ counts[i] ]) {
-                swapGene(i);
-            }
-        }
-
+        Algorithm.repair(this);
     }
 }

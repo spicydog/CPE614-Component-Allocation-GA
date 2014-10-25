@@ -5,26 +5,25 @@ package org.spicydog;
  */
 public class Config {
 
-    //protected static String solution = "1111000000000000000000000000000000000000000000000000000000001111";
-    protected static int defaultGeneLength = 42;
-    protected static int defaultPopulationSize = 50;
+    // Genetic Algorithm Parameters
+    protected static int geneLength = 42;
+    protected static int populationSize = 50;
 
-    protected static double defaultUniformRate = 0.5;
-    protected static double defaultCrossoverRate = 0.8;
-    protected static double defaultMutationRate = 0.015;
-    protected static int defaultTournamentSize = 10;
-    protected static int defaultElitismOffset = 1;
+    protected static int elitismSize = 3;
+    protected static double crossoverRate = 0.8;
+    protected static int tournamentSize = 10;
+    protected static double crossoverUniformRate = 0.5;
+    protected static double mutationRate = 0.015;
 
+    // Execution Parameters
+    protected static int maxGeneration = 10000;
 
+    // Problem Parameters
+    protected static double maxCost = 200;
 
-    protected static int nGeneration = 1000;
     protected static int nSubsystem = 6;
-
-
     protected static int nHardware = 3;
     protected static int nSoftware = 4;
-
-    protected static double maxCost = 160;
 
                                              // HW1    HW2    HW3    SW1    SW2    SW3    SW4
     protected static double[] reliability = {   0.995, 0.980, 0.980,    0.950, 0.908, 0.908, 0.950,   // Subsystem 1
