@@ -1,5 +1,7 @@
 package org.spicydog;
 
+import static org.spicydog.Utility.log;
+
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
@@ -103,8 +105,7 @@ public class Algorithm {    /* GA parameters */
     }
 
 
-
-    public static void repair(Individual individual) {
+    public static Individual repair(Individual individual) {
 
         int[] counts = new int[individual.size()];
         int count;
@@ -113,7 +114,6 @@ public class Algorithm {    /* GA parameters */
         int nSoftware = Config.nSoftware;
         boolean isShouldRepair = false;
         for (int i = 0; i < Config.nSubsystem; i++) {
-
             // Hardware
             count = 0;
             for (int j = 0; j < nHardware; j++) {
@@ -151,15 +151,42 @@ public class Algorithm {    /* GA parameters */
         // 2. The cost is to high, we have to reduce components
         // 3. Case 1 occurs then case 2 occurs
 
-        if(Calculator.isPassConstrain(individual) && !isShouldRepair)
-            return;
-
-        double[] swapRate = new double[]{0.3, 0.0, 0.5, 0.66, 0.75, 0.8};
-        for (int i = 0; i < individual.size(); i++) {
-            if(Math.random() < swapRate[ counts[i] ]) {
-                individual.swapGene(i);
+        if(Calculator.isPassConstrain(individual) && !isShouldRepair) {
+            return individual;
+        } else {
+            double repairRate;
+            for (int i = 0; i < Config.nSubsystem; i++) {
+                // Hardware
+                for (int j = 0; j < nHardware; j++) {
+                    int indexHardware = i * nComponent + j;
+                    if(counts[indexHardware]==0) {
+                        repairRate = 1 / (double)Config.nHardware;
+                    } else if( counts[indexHardware]>=2) {
+                        repairRate = 1-1/(double)counts[indexHardware];
+                    } else {
+                        repairRate = 0;
+                    }
+                    if(Math.random() < repairRate) {
+                        individual.swapGene(indexHardware);
+                    }
+                }
+                // Software
+                for (int k = 0; k < nSoftware; k++) { // Software
+                    int indexSoftware = i * nComponent + nHardware + k;
+                    if(counts[indexSoftware]==0) {
+                        repairRate = 1 / (double)Config.nSoftware;
+                    } else if( counts[indexSoftware]>=2) {
+                        repairRate = 1-1/(double)counts[indexSoftware];
+                    } else {
+                        repairRate = 0;
+                    }
+                    if(Math.random() < repairRate) {
+                        individual.swapGene(indexSoftware);
+                    }
+                }
             }
         }
+        return individual;
 
     }
 }

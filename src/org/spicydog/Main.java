@@ -47,9 +47,5 @@ public class Main {
         }
 
 
-
-
-        //System.out.println(myPopulation.getFittest().toString());
-
     }
 }
