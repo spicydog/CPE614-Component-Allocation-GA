@@ -38,6 +38,8 @@ public class Algorithm {    /* GA parameters */
 
         // Mutate population
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
+            // Some unknown programming issues make me needs to create new individual to avoid bugs.
+            // This is what it should look like "newPopulation.getIndividual(i).mutate();"
             Individual newIndividual = new Individual(newPopulation.getIndividual(i));
             newIndividual.mutate();
             newIndividual.repair();
