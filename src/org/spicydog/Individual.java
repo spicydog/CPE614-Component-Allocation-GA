@@ -11,7 +11,9 @@ public class Individual {
     private boolean[] genes = new boolean[defaultGeneLength];
     // Cache
     private double fitness = 0;
-    private boolean isGeneChanged;
+    private double cost = 0;
+    private boolean isFitnessChanged;
+    private boolean isCostChanged;
 
     public Individual() {
         generateIndividual();
@@ -29,7 +31,8 @@ public class Individual {
             genes[i] = Utility.randomBoolean();
         }
         this.repair();
-        isGeneChanged = true;
+        isFitnessChanged = true;
+        isCostChanged = true;
         repair();
     }
 
@@ -37,13 +40,10 @@ public class Individual {
         return genes[index];
     }
 
-    public double getCost() {
-        return Calculator.getCost(this);
-    }
-
     public void setGene(int index, boolean value) {
         genes[index] = value;
-        isGeneChanged = true;
+        isFitnessChanged = true;
+        isCostChanged = true;
     }
 
     public void swapGene(int index) {
@@ -55,11 +55,19 @@ public class Individual {
     }
 
     public double getFitness() {
-        if (isGeneChanged) {
+        if (isFitnessChanged) {
             fitness = Calculator.getFitness(this);
-            isGeneChanged = false;
+            isFitnessChanged = false;
         }
         return fitness;
+    }
+
+    public double getCost() {
+        if (isCostChanged) {
+            cost =  Calculator.getCost(this);
+            isCostChanged = false;
+        }
+        return cost;
     }
 
     @Override
