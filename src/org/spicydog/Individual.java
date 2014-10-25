@@ -16,6 +16,13 @@ public class Individual {
     public Individual() {
         generateIndividual();
     }
+
+    public Individual(Individual individual) {
+        for (int i = 0; i < size(); i++) {
+            setGene(i,individual.getGene(i));
+        }
+    }
+
     // Create a random individual
     public void generateIndividual() {
         for (int i = 0; i < size(); i++) {
@@ -45,7 +52,7 @@ public class Individual {
     }
 
     public void swapGene(int index) {
-        setGene(index,!getGene(index));
+        setGene(index, !getGene(index));
     }
 
     public int size() {

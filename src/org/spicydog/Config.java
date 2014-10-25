@@ -13,7 +13,7 @@ public class Config {
     protected static double defaultCrossoverRate = 0.8;
     protected static double defaultMutationRate = 0.015;
     protected static int defaultTournamentSize = 10;
-    protected static int defaultElitismOffset = 3;
+    protected static int defaultElitismOffset = 1;
 
 
 
@@ -24,7 +24,7 @@ public class Config {
     protected static int nHardware = 3;
     protected static int nSoftware = 4;
 
-    protected static double maxCost = 220;
+    protected static double maxCost = 160;
 
                                              // HW1    HW2    HW3    SW1    SW2    SW3    SW4
     protected static double[] reliability = {   0.995, 0.980, 0.980,    0.950, 0.908, 0.908, 0.950,   // Subsystem 1
