@@ -13,7 +13,7 @@ public class Config {
     protected static double defaultCrossoverRate = 0.8;
     protected static double defaultMutationRate = 0.015;
     protected static int defaultTournamentSize = 10;
-    protected static int defaultElitismOffset = 1;
+    protected static int defaultElitismOffset = 5;
 
 
 

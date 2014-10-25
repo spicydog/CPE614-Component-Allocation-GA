@@ -10,39 +10,47 @@ public class Main {
 
         //FitnessCalc.setSolution(Utility.convertStringToBooleans(Config.solution));
 
-        double fitness = 0;
-        double lastFitness = fitness;
+        double fittess = 0;
+        double lastFittess = fittess;
+        boolean isSolutionFound = false;
         int bestGeneration = 0;
-        int r = 0;
 
         // Create an initial population
-        Population myPop = new Population(Config.defaultPopulationSize, true);
+        Population myPopulation = new Population(Config.defaultPopulationSize, true);
 
         // Evolve our population until we reach an optimum solution
         int generationCount = 0;
 
         for (int i = 0; i < Config.nGeneration; i++) {
             generationCount++;
-            fitness = myPop.getFittest().getFitness();
-            if(lastFitness!=fitness) {
+            fittess = myPopulation.getFittest().getFitness();
+            if(fittess>lastFittess) {
+                isSolutionFound = true;
                 bestGeneration = i;
-                lastFitness = fitness;
-                log("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness());
+                lastFittess = fittess;
+                log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fittess) + " *");
             }
-            myPop = Algorithm.evolvePopulation(myPop);
+            if(i%1000==0)
+                log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fittess));
+            myPopulation = Algorithm.evolvePopulation(myPopulation);
         }
 
-        log("Run: " + ++r);
-        log("Generation: " + bestGeneration);
-        log("Genes:");
-        Individual fittnestPopulation = myPop.getFittest();
-        log(Utility.printSysteom(fittnestPopulation.toBooleans()));
-        log("Fitness: " + fittnestPopulation.getFitness());
-        log("Cost: " + fittnestPopulation.getCost());
+        if(isSolutionFound) {
+            Individual fittestPopulation = myPopulation.getFittest();
+            log("\nSolution found :)");
+            log("At generation: " + bestGeneration);
+            log("Fitness: " + fittestPopulation.getFitness());
+            log("Cost: " + fittestPopulation.getCost());
+            log("Genes:");
+            log(Utility.printSysteom(fittestPopulation.toBooleans()));
+        } else {
+            log("\nNot found any feasible solution :(");
+        }
 
 
 
-        //System.out.println(myPop.getFittest().toString());
+
+        //System.out.println(myPopulation.getFittest().toString());
 
     }
 }

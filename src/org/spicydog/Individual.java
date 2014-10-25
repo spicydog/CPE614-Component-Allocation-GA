@@ -15,6 +15,9 @@ public class Individual {
     private double fitness = 0;
     private boolean isGeneChanged;
 
+    public Individual() {
+        generateIndividual();
+    }
     // Create a random individual
     public void generateIndividual() {
         for (int i = 0; i < size(); i++) {
@@ -22,12 +25,7 @@ public class Individual {
         }
         this.repair();
         isGeneChanged = true;
-    }
-
-    /* Getters and setters */
-    // Use this if you want to create individuals with different gene lengths
-    public static void setDefaultGeneLength(int length) {
-        defaultGeneLength = length;
+        repair();
     }
 
     public boolean getGene(int index) {
@@ -52,7 +50,6 @@ public class Individual {
         this.setGene(index,!this.getGene(index));
     }
 
-    /* Public methods */
     public int size() {
         return genes.length;
     }
@@ -85,8 +82,6 @@ public class Individual {
 
 
     public void repair() {
-
-
         int[] counts = new int[this.size()];
         int count;
         int nComponent = Config.nHardware + Config.nSoftware;

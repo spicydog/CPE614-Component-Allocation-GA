@@ -48,7 +48,9 @@ public class Population {
 
         for (int i = 0; i < size(); i++) {
             for (int j = i+1; j < size(); j++) {
-                if( fitnessValues[sortedIndexes[i]]<fitnessValues[sortedIndexes[j]] ) {
+                double fitnessI = fitnessValues[sortedIndexes[i]];
+                double fitnessJ = fitnessValues[sortedIndexes[j]];
+                if( fitnessI < fitnessJ ) {
                     int swap = sortedIndexes[i];
                     sortedIndexes[i] = sortedIndexes[j];
                     sortedIndexes[j] = swap;

@@ -16,24 +16,24 @@ public class Algorithm {    /* GA parameters */
     /* Public methods */
 
     // Evolve a population
-    public static Population evolvePopulation(Population pop) {
-        Population newPopulation = new Population(pop.size(), false);
+    public static Population evolvePopulation(Population population) {
+        Population newPopulation = new Population(population.size(), false);
 
         // Keep our best individuals
-        int[] sortedIndex = pop.getSortedFitnessIndex();
+        int[] sortedIndex = population.getSortedFitnessIndex();
         for (int i = 0; i < elitismOffset; i++) {
-            newPopulation.saveIndividual(i, pop.getIndividual(sortedIndex[i]));
+            newPopulation.saveIndividual(i, population.getIndividual(sortedIndex[i]));
         }
 
         // Crossover population
         // Loop over the population size and create new individuals with
         // crossover
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
-            Individual indiv1 = tournamentSelection(pop);
-            Individual indiv2 = tournamentSelection(pop);
-            Individual newIndiv = crossover(indiv1, indiv2);
-            newIndiv.repair();
-            newPopulation.saveIndividual(i, newIndiv);
+            Individual individual1 = tournamentSelection(population);
+            Individual individual2 = tournamentSelection(population);
+            Individual newIndividual = crossover(individual1, individual2);
+            newIndividual.repair();
+            newPopulation.saveIndividual(i, newIndividual);
         }
 
         // Mutate population
@@ -42,26 +42,14 @@ public class Algorithm {    /* GA parameters */
             newIndividual.repair();
         }
 
-
-        int worstIndex = 0;
-        double worstFitness = Double.MAX_VALUE;
-        for (int i = elitismOffset; i < newPopulation.size(); i++) {
-            double fitness = newPopulation.getIndividual(i).getFitness();
-            if( fitness <= worstFitness ) {
-                worstIndex = i;
-                worstFitness = fitness;
-            }
-        }
-
-        Individual newIndividual =  new Individual();
-        newIndividual.generateIndividual();
-        newIndividual.repair();
-        newPopulation.saveIndividual(worstIndex, newIndividual);
+        // Random new individual on the worst offspring
+        int worstIndex = newPopulation.getSortedFitnessIndex()[newPopulation.size()-1];
+        newPopulation.saveIndividual(worstIndex, new Individual());
 
         return newPopulation;
     }
 
-//    // Crossover individuals 1
+    // Crossover individuals 1
     private static Individual crossover(Individual indiv1, Individual indiv2) {
         Individual newSol = new Individual();
         if(Math.random() <= Config.defaultCrossoverRate) {
@@ -90,15 +78,15 @@ public class Algorithm {    /* GA parameters */
 
 
     // Mutate an individual
-    private static Individual mutate(Individual indiv) {
+    private static Individual mutate(Individual individual) {
         // Loop through genes
-        for (int i = 0; i < indiv.size(); i++) {
+        for (int i = 0; i < individual.size(); i++) {
             if (Math.random() <= mutationRate) {
                 // Create random gene
-                indiv.setGene(i, Utility.booleanRandom());
+                individual.swapGene(i);
             }
         }
-        return indiv;
+        return individual;
     }
 
     // Select individuals for crossover
@@ -107,11 +95,10 @@ public class Algorithm {    /* GA parameters */
         Population tournament = new Population(tournamentSize, false);
         // For each place in the tournament get a random individual
         for (int i = 0; i < tournamentSize; i++) {
-            int randomId = (int) (Math.random() * pop.size());
+            int randomId = Utility.randInt(0,pop.size()-1);
             tournament.saveIndividual(i, pop.getIndividual(randomId));
         }
         // Get the fittest
-        Individual fittest = tournament.getFittest();
-        return fittest;
+        return tournament.getFittest();
     }
 }
