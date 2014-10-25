@@ -1,5 +1,7 @@
 package org.spicydog;
 
+import static org.spicydog.Utility.log;
+
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
@@ -30,33 +32,31 @@ public class Population {
         return individuals[index];
     }
 
-
     public Individual getFittest() {
-        return getFittest(1)[0];
+        int[] sortedIndexes = getSortedFitnessIndex();
+        return individuals[sortedIndexes[0]];
     }
-    public Individual[] getFittest(int nIndividuals) {
 
+    public int[] getSortedFitnessIndex() {
+
+        int[] sortedIndexes = new int[size()];
         double[] fitnessValues = new double[size()];
         for (int i = 0; i < size(); i++) {
             fitnessValues[i] = individuals[i].getFitness();
+            sortedIndexes[i] = i;
         }
 
-        Individual[] selectedIndividuals = new Individual[nIndividuals];
-
-        for (int i = 0; i < nIndividuals; i++) {
-            double max = Integer.MIN_VALUE;
-            int index = 0;
-            for (int j = 0; j < size(); j++) {
-                if(fitnessValues[j] > max) {
-                    max = fitnessValues[j];
-                    index = j;
-                    fitnessValues[j] = Integer.MIN_VALUE;
+        for (int i = 0; i < size(); i++) {
+            for (int j = i+1; j < size(); j++) {
+                if( fitnessValues[sortedIndexes[i]]<fitnessValues[sortedIndexes[j]] ) {
+                    int swap = sortedIndexes[i];
+                    sortedIndexes[i] = sortedIndexes[j];
+                    sortedIndexes[j] = swap;
                 }
             }
-            selectedIndividuals[i] = individuals[index];
         }
 
-        return selectedIndividuals;
+        return sortedIndexes;
     }
 
     /* Public methods */
