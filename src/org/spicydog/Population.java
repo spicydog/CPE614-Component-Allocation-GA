@@ -21,7 +21,6 @@ public class Population {
             // Loop and create individuals
             for (int i = 0; i < size(); i++) {
                 Individual newIndividual = new Individual();
-                newIndividual.generateIndividual();
                 saveIndividual(i, newIndividual);
             }
         }

@@ -30,7 +30,9 @@ public class Main {
                 lastFittess = fittess;
                 log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fittess) + " *");
             }
-            if(i%1000==0)
+            if(fittess<lastFittess)
+                log("WTF!!!");
+            if(i%10000==0)
                 log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fittess));
             myPopulation = Algorithm.evolvePopulation(myPopulation);
         }

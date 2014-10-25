@@ -45,7 +45,7 @@ public class Individual {
     }
 
     public void swapGene(int index) {
-        this.setGene(index,!this.getGene(index));
+        setGene(index,!getGene(index));
     }
 
     public int size() {
@@ -80,6 +80,7 @@ public class Individual {
 
 
     public void repair() {
+
         int[] counts = new int[this.size()];
         int count;
         int nComponent = Config.nHardware + Config.nSoftware;
@@ -135,5 +136,6 @@ public class Individual {
                 swapGene(i);
             }
         }
+
     }
 }

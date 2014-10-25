@@ -1,5 +1,7 @@
 package org.spicydog;
 
+import static org.spicydog.Utility.log;
+
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
@@ -38,6 +40,7 @@ public class Algorithm {    /* GA parameters */
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
             Individual newIndividual =  mutate(newPopulation.getIndividual(i));
             newIndividual.repair();
+            newPopulation.saveIndividual(i, newIndividual);
         }
 
         // Random new individual on the worst offspring
