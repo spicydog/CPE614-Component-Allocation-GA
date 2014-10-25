@@ -19,7 +19,7 @@ public class Config {
     protected static int maxGeneration = 10000;
 
     // Problem Parameters
-    protected static double maxCost = 200;
+    protected static double maxCost = 160;
 
     protected static int nSubsystem = 6;
     protected static int nHardware = 3;

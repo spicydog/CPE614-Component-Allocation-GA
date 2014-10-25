@@ -79,6 +79,9 @@ public class Individual {
         return result;
     }
 
+    public void mutate() {
+        Algorithm.mutate(this);
+    }
     public void repair() {
         Algorithm.repair(this);
     }

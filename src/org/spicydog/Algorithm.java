@@ -39,7 +39,7 @@ public class Algorithm {    /* GA parameters */
         // Mutate population
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
             Individual newIndividual = new Individual(newPopulation.getIndividual(i));
-            newIndividual =  mutate(newIndividual);
+            newIndividual.mutate();
             newIndividual.repair();
             newPopulation.saveIndividual(i, newIndividual);
         }
@@ -52,7 +52,7 @@ public class Algorithm {    /* GA parameters */
     }
 
     // Crossover individuals 1
-    private static Individual crossover(Individual indiv1, Individual indiv2) {
+    public static Individual crossover(Individual indiv1, Individual indiv2) {
         Individual newSol = new Individual();
         if(Math.random() <= Config.crossoverRate) {
             // Loop through genes
@@ -80,7 +80,7 @@ public class Algorithm {    /* GA parameters */
 
 
     // Mutate an individual
-    private static Individual mutate(Individual individual) {
+    public static Individual mutate(Individual individual) {
         // Loop through genes
         for (int i = 0; i < individual.size(); i++) {
             if (Math.random() <= mutationRate) {
@@ -92,7 +92,7 @@ public class Algorithm {    /* GA parameters */
     }
 
     // Select individuals for crossover
-    private static Individual tournamentSelection(Population pop) {
+    public static Individual tournamentSelection(Population pop) {
         // Create a tournament population
         Population tournament = new Population(tournamentSize, false);
         // For each place in the tournament get a random individual
