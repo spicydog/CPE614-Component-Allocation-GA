@@ -1,7 +1,5 @@
 package org.spicydog;
 
-import static org.spicydog.Utility.log;
-
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
@@ -95,7 +93,7 @@ public class Algorithm {    /* GA parameters */
         Population tournament = new Population(tournamentSize, false);
         // For each place in the tournament get a random individual
         for (int i = 0; i < tournamentSize; i++) {
-            int randomId = Utility.randInt(0,pop.size()-1);
+            int randomId = Utility.randomInt(0, pop.size() - 1);
             tournament.saveIndividual(i, pop.getIndividual(randomId));
         }
         // Get the fittest

@@ -1,7 +1,5 @@
 package org.spicydog;
 
-import static org.spicydog.Utility.log;
-
 /**
  * Created by spicydog on 10/21/14.
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
@@ -21,7 +19,7 @@ public class Individual {
     // Create a random individual
     public void generateIndividual() {
         for (int i = 0; i < size(); i++) {
-            genes[i] = Utility.booleanRandom();
+            genes[i] = Utility.randomBoolean();
         }
         this.repair();
         isGeneChanged = true;

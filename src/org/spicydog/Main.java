@@ -42,7 +42,7 @@ public class Main {
             log("Fitness: " + fittestPopulation.getFitness());
             log("Cost: " + fittestPopulation.getCost());
             log("Genes:");
-            log(Utility.printSysteom(fittestPopulation.toBooleans()));
+            log(Utility.printSystem(fittestPopulation.toBooleans()));
         } else {
             log("\nNot found any feasible solution :(");
         }

@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class Utility {
 
-    public static boolean booleanRandom() {
-        int gene = randInt(0,1);
+    public static boolean randomBoolean() {
+        int gene = randomInt(0, 1);
         return gene==1;
     }
 
@@ -23,7 +23,7 @@ public class Utility {
      * @return Integer between min and max, inclusive.
      * @see java.util.Random#nextInt(int)
      */
-    public static int randInt(int min, int max) {
+    public static int randomInt(int min, int max) {
 
         // NOTE: Usually this should be a field rather than a method
         // variable so that it is not re-seeded every call.
@@ -41,7 +41,7 @@ public class Utility {
         System.out.println(msg);
     }
 
-    public static String printSysteom(boolean[] system) {
+    public static String printSystem(boolean[] system) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < Config.nSubsystem; i++) {
             for (int j = 0; j < 3; j++) { // Hardware
@@ -66,7 +66,7 @@ public class Utility {
         return output.toString();
     }
 
-    public static boolean[] convertStringToBooleans(String str) {
+    public static boolean[] convertStringToBoolean(String str) {
         int length = str.length();
         boolean[] result = new boolean[length];
         for (int i = 0; i < length; i++) {
