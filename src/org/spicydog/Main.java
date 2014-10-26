@@ -38,8 +38,8 @@ public class Main {
                     lastFitness = fitness;
                     log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness) + " *");
                 }
-                //if(iGeneration%1000==0)
-                //    log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness));
+                if(iGeneration%1000==0)
+                    log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness));
                 myPopulation = Algorithm.evolvePopulation(myPopulation);
             }
 

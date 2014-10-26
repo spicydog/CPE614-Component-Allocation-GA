@@ -7,7 +7,7 @@ public class Config {
 
     // Execution Parameters
     static int nRun = 10;
-    static int maxGeneration = 100000;
+    static int maxGeneration = 10000;
 
     // Genetic Algorithm Parameters
     static int geneLength = 42;
@@ -21,7 +21,7 @@ public class Config {
 
 
     // Problem Parameters
-    static double maxCost = 160;
+    static double maxCost = 180;
 
     static int nSubsystem = 6;
     static int nHardware = 3;
