@@ -12,53 +12,44 @@ public class Calculator {
 
     static double getCost(Individual individual) {
         double sumCost = 0;
-        for (int i = 0; i < Config.geneLength; i++) {
-            if(individual.getGene(i))
-                sumCost += Config.cost[i];
+        int n = Config.nSubsystem;
+
+        for (int i = 0; i < n; i++) {
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
+
+            int indexHardware = i * 7 + Utility.convertBooleanToInt(hardwareGenes);
+            int indexSoftware = i * 7 + 3 + Utility.convertBooleanToInt(softwareGenes);
+
+            sumCost += Config.cost[indexHardware] + Config.cost[indexSoftware];
         }
+
         return sumCost;
     }
 
     // Calculate inidividuals fittness by comparing it to our candidate solution
     static double getFitness(Individual individual) {
-        double fitness = 0;
-        // Loop through our individuals genes and compare them to our cadidates
+
+        double fitness = 1;
 
         if(!isPassConstrain(individual)) {
             return 0;
         }
 
-        double R = 1;
-        for (int i = 0; i < Config.nSubsystem; i++) {
 
-            double Rhw = 1;
-            for (int j = 0; j < 3; j++) { // Hardware
-                int indexHardware = i * 7 + j;
-                boolean isHardwareSelected = individual.getGene(indexHardware);
-                if(isHardwareSelected) {
-                    double hardwareReliability = Config.reliability[indexHardware];
-                    Rhw *= (1-hardwareReliability);
-                }
-            }
-            Rhw = 1-Rhw;
+        int n = Config.nSubsystem;
 
+        for (int i = 0; i < n; i++) {
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
 
-            double Rsw = 1;
-            for (int k = 0; k < 4; k++) { // Software
-                int indexSoftware = i * 7 + 3 + k;
-                boolean isSoftwareSelected = individual.getGene(indexSoftware);
-                if (isSoftwareSelected) {
-                    double softwareReliability = Config.reliability[indexSoftware];
-                    Rsw *= (1-softwareReliability);
-                }
-            }
-            Rsw = 1-Rsw;
+            int indexHardware = i * 7 + Utility.convertBooleanToInt(hardwareGenes);
+            int indexSoftware = i * 7 + 3 + Utility.convertBooleanToInt(softwareGenes);
 
-            double Ri = Rhw * Rsw;
-            R *= Ri;
+            fitness *= Config.reliability[indexHardware] * Config.reliability[indexSoftware];
         }
 
-        fitness = R;
+
 
         return fitness;
     }

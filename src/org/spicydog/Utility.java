@@ -53,7 +53,7 @@ public class Utility {
                             "%.2f\t%s\t" +
                             "%d\t%.6f\n",
                     i + 1, individuals[i].getFitness(),
-                    individuals[i].getCost(), printConponentAllocation(individuals[i]),
+                    individuals[i].getCost(), printComponentAllocation(individuals[i]),
                     generations[i], times[i]);
         }
 
@@ -61,65 +61,43 @@ public class Utility {
 
     }
 
-    public static String printConponentAllocation(Individual individual) {
-        int nSubsystem = Config.nSubsystem;
-        int nComponent = Config.nHardware + Config.nSoftware;
-        int nHardware = Config.nHardware;
-        int nSoftware = Config.nSoftware;
-
-        String result = "[";
-
-        for (int i = 0; i < nSubsystem; i++) {
-            // Hardware
-            result += String.format("S%d:{",i);
-            for (int j = 0; j < nHardware; j++) {
-                int indexHardware = i * nComponent + j;
-                if(individual.getGene(indexHardware))
-                    result += String.format("H%d,",j+1);
-            }
-            // Software
-            for (int k = 0; k < nSoftware; k++) { // Software
-                int indexSoftware = i * nComponent + nHardware + k;
-                if(individual.getGene(indexSoftware))
-                    result += String.format("V%d,",k+1);
-            }
-            result += "},";
-        }
-
-        result += "]";
-
-        result = result.replace(",]","]");
-        result = result.replace(",}","}");
-
-        // [1:{H1,H2,S1,S3},2:{H1,H2,S1,S3},3:{H1,H2,S1,S3},[H1,H2,S1,S3],[H1,H2,S1,S3],[H1,H2,S1,S3]]
-
+    public static String printComponentAllocation(Individual individual) {
+        String result = "";
 
         return result;
     }
 
-    public static String printSystem(boolean[] system) {
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < Config.nSubsystem; i++) {
-            for (int j = 0; j < 3; j++) { // Hardware
-                int indexHardware = i * 7 + j;
-                if(system[indexHardware]) {
-                    output.append("1");
-                } else {
-                    output.append("0");
-                }
-            }
-            output.append(" ");
-            for (int k = 0; k < 4; k++) { // Software
-                int indexSoftware = i * 7 + 3 + k;
-                if(system[indexSoftware]) {
-                    output.append("1");
-                } else {
-                    output.append("0");
-                }
-            }
-            output.append("\n");
+    public static String printSystem(Individual individual) {
+
+        String result = "";
+        double sumCost = 0;
+        int n = Config.nSubsystem;
+
+        for (int i = 0; i < n; i++) {
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
+
+            int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
+            int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
+
+//            int indexHardware = i * 7 + selectedHardware;
+//            int indexSoftware = i * 7 + 3 + selectedSoftware;
+
+            result += String.format("S%d: H:%d V:%d\n",i+1,selectedHardware,selectedSoftware);
         }
-        return output.toString();
+
+        return result;
+
+    }
+
+
+    public static int convertBooleanToInt(boolean[] bool) {
+        int sum = 0;
+        for (int i = bool.length-1; i >= 0; i--) {
+            if(bool[i])
+                sum += (int)Math.pow(2,i);
+        }
+        return sum;
     }
 
     public static boolean[] convertStringToBoolean(String str) {

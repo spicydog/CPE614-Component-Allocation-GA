@@ -6,22 +6,22 @@ package org.spicydog;
 public class Config {
 
     // Execution Parameters
-    static int nRun = 10;
+    static int nRun = 1;
     static int maxGeneration = 10000;
 
     // Genetic Algorithm Parameters
-    static int geneLength = 42;
-    static int populationSize = 50;
+    static int geneLength = 24;
+    static int populationSize = 10;
 
-    static int elitismSize = 3;
+    static int elitismSize = 2;
     static double crossoverRate = 0.8;
-    static int tournamentSize = 10;
+    static int tournamentSize = 4;
     static double crossoverUniformRate = 0.5;
     static double mutationRate = 0.015;
 
 
     // Problem Parameters
-    static double maxCost = 460;
+    static double maxCost = 180;
 
     static int nSubsystem = 6;
     static int nHardware = 3;

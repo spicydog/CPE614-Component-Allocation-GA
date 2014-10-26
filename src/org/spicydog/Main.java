@@ -53,12 +53,12 @@ public class Main {
                 log("Cost: " + fittestPopulation.getCost());
                 log("Execution Time: " + executionTime);
                 log("Genes:");
-                log(Utility.printSystem(fittestPopulation.toBooleans()));
+                log(Utility.printSystem(fittestPopulation));
 
 
-                resultIndividual[iRun] = fittestPopulation;
-                resultGeneration[iRun] = solutionFoundAtGeneration;
-                resultTime[iRun] = executionTime;
+//                resultIndividual[iRun] = fittestPopulation;
+//                resultGeneration[iRun] = solutionFoundAtGeneration;
+//                resultTime[iRun] = executionTime;
 
 
             } else {
@@ -69,7 +69,7 @@ public class Main {
             }
         }
 
-        log(Utility.printReport(resultIndividual, resultGeneration, resultTime) );
+        //log(Utility.printReport(resultIndividual, resultGeneration, resultTime) );
 
     }
 }
