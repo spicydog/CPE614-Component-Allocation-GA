@@ -7,15 +7,14 @@ public class Config {
 
     // Execution Parameters
     static int nRun = 1;
-    static int maxGeneration = 10000;
+    static int maxGeneration = 1000;
 
     // Genetic Algorithm Parameters
     static int geneLength = 24;
-    static int populationSize = 10;
+    static int populationSize = 25;
 
     static int elitismSize = 2;
-    static double crossoverRate = 0.8;
-    static int tournamentSize = 4;
+    static int tournamentSize = 12;
     static double crossoverUniformRate = 0.5;
     static double mutationRate = 0.015;
 

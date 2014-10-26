@@ -62,15 +62,7 @@ public class Utility {
     }
 
     public static String printComponentAllocation(Individual individual) {
-        String result = "";
-
-        return result;
-    }
-
-    public static String printSystem(Individual individual) {
-
-        String result = "";
-        double sumCost = 0;
+        String result = "[";
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
@@ -80,8 +72,27 @@ public class Utility {
             int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
             int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
 
-//            int indexHardware = i * 7 + selectedHardware;
-//            int indexSoftware = i * 7 + 3 + selectedSoftware;
+            result += String.format("S%d: {H:%d,V:%d},",i+1,selectedHardware+1,selectedSoftware+1);
+        }
+        result += "]";
+
+        result = result.replace(",]","]");
+        result = result.replace(",}","}");
+
+        return result;
+    }
+
+    public static String printSystem(Individual individual) {
+
+        String result = "";
+        int n = Config.nSubsystem;
+
+        for (int i = 0; i < n; i++) {
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
+
+            int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
+            int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
 
             result += String.format("S%d: H:%d V:%d\n",i+1,selectedHardware,selectedSoftware);
         }

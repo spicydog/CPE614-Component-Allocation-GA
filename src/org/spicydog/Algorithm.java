@@ -46,9 +46,11 @@ public class Algorithm {    /* GA parameters */
             newPopulation.saveIndividual(i, newIndividual);
         }
 
+
         // Random new individual on the worst offspring
-        int worstIndex = newPopulation.getSortedFitnessIndex()[newPopulation.size()-1];
-        newPopulation.saveIndividual(worstIndex, new Individual());
+        int[] worstIndexes = newPopulation.getSortedFitnessIndex();
+        newPopulation.saveIndividual(worstIndexes[newPopulation.size()-1], new Individual());
+
 
         return newPopulation;
     }
@@ -56,27 +58,15 @@ public class Algorithm {    /* GA parameters */
     // Crossover individuals 1
     public static Individual crossover(Individual indiv1, Individual indiv2) {
         Individual newSol = new Individual();
-        if(Math.random() <= Config.crossoverRate) {
-            // Loop through genes
-            for (int i = 0; i < indiv1.size(); i++) {
-                // Crossover
-                if (Math.random() <= uniformRate) {
-                    newSol.setGene(i, indiv1.getGene(i));
-                } else {
-                    newSol.setGene(i, indiv2.getGene(i));
-                }
-            }
-        } else {
-            double fitness1 = indiv1.getFitness();
-            double fitness2 = indiv2.getFitness();
-            if( fitness1 > fitness2 ) {
-                newSol = indiv1;
-            } else if( fitness1 < fitness2) {
-                newSol= indiv2;
+        for (int i = 0; i < indiv1.size(); i++) {
+            // Crossover
+            if (Math.random() <= uniformRate) {
+                newSol.setGene(i, indiv1.getGene(i));
             } else {
-                newSol = indiv1.getCost() < indiv2.getCost() ? indiv1 : indiv2;
+                newSol.setGene(i, indiv2.getGene(i));
             }
         }
+
         return newSol;
     }
 
@@ -117,7 +107,8 @@ public class Algorithm {    /* GA parameters */
             if(indexHardware>=Config.nHardware) {
                 if(Utility.randomBoolean())
                     individual.swapGene(i);
-                individual.swapGene(i + 1);
+                else
+                    individual.swapGene(i + 1);
             }
 
         }

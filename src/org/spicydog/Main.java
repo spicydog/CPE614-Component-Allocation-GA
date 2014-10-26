@@ -56,9 +56,9 @@ public class Main {
                 log(Utility.printSystem(fittestPopulation));
 
 
-//                resultIndividual[iRun] = fittestPopulation;
-//                resultGeneration[iRun] = solutionFoundAtGeneration;
-//                resultTime[iRun] = executionTime;
+                resultIndividual[iRun] = fittestPopulation;
+                resultGeneration[iRun] = solutionFoundAtGeneration;
+                resultTime[iRun] = executionTime;
 
 
             } else {
@@ -69,7 +69,7 @@ public class Main {
             }
         }
 
-        //log(Utility.printReport(resultIndividual, resultGeneration, resultTime) );
+        log(Utility.printReport(resultIndividual, resultGeneration, resultTime) );
 
     }
 }
