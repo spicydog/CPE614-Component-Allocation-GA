@@ -75,13 +75,13 @@ public class Utility {
             for (int j = 0; j < nHardware; j++) {
                 int indexHardware = i * nComponent + j;
                 if(individual.getGene(indexHardware))
-                    result += String.format("H%d,",j);
+                    result += String.format("H%d,",j+1);
             }
             // Software
             for (int k = 0; k < nSoftware; k++) { // Software
                 int indexSoftware = i * nComponent + nHardware + k;
                 if(individual.getGene(indexSoftware))
-                    result += String.format("V%d,",k);
+                    result += String.format("V%d,",k+1);
             }
             result += "},";
         }

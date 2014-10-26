@@ -62,6 +62,9 @@ public class Main {
 
             } else {
                 log("\nNot found any feasible solution :(");
+                log("\nLet's try again!");
+                iRun--;
+
             }
         }
 
