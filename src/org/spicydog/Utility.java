@@ -41,6 +41,27 @@ public class Utility {
         System.out.println(msg);
     }
 
+
+
+    public static String printReport(Individual[] resultIndividual, int[] resultGeneration, double[] resultTime) {
+        int n = resultIndividual.length;
+        String result = "Run\tReliability(x)\t" +
+                        "Cost(x)\tComponent Allocation\t" +
+                        "Generation\tComputation Time (s)\n";
+        for (int i = 0; i < n; i++) {
+            result += String.format("%d\t%.6f\t" +
+                                    "%.2f\t%s\t" +
+                                    "%d\t%.6f\n",
+                                    i+1,resultIndividual[i].getFitness(),
+                                    resultIndividual[i].getCost(),"ALLOC",
+                                    resultGeneration[i],resultTime[i]);
+        }
+
+        return result;
+
+    }
+
+
     public static String printSystem(boolean[] system) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < Config.nSubsystem; i++) {

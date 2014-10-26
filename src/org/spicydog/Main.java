@@ -6,46 +6,66 @@ public class Main {
 
 
     public static void main(String[] args) {
-        // Set a candidate solution
+
+        int n = Config.nRun;
+        int[] resultGeneration = new int[n];
+        double[] resultTime = new double[n];
+        Individual[] resultIndividual = new Individual[n];
 
 
-        double fittess = 0;
-        double lastFittess = fittess;
-        boolean isSolutionFound = false;
-        int bestGeneration = 0;
+        for (int iRun = 0; iRun < n; iRun++) {
 
-        // Create an initial population
-        Population myPopulation = new Population(Config.populationSize, true);
 
-        // Evolve our population until we reach an optimum solution
-        int generationCount = 0;
+            double fitness = 0;
+            double lastFitness = fitness;
+            boolean isSolutionFound = false;
+            int solutionFoundAtGeneration = 0;
 
-        for (int i = 0; i < Config.maxGeneration; i++) {
-            generationCount++;
-            fittess = myPopulation.getFittest().getFitness();
-            if(fittess>lastFittess) {
-                isSolutionFound = true;
-                bestGeneration = i;
-                lastFittess = fittess;
-                log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fittess) + " *");
+            long startTime = System.nanoTime();
+            long endTime = startTime;
+
+            // Create an initial population
+            Population myPopulation = new Population(Config.populationSize, true);
+
+            int generationCount = 0;
+            for (int iGeneration = 0; iGeneration < Config.maxGeneration; iGeneration++) {
+                generationCount++;
+                fitness = myPopulation.getFittest().getFitness();
+                if(fitness>lastFitness) {
+                    endTime = System.nanoTime();
+                    isSolutionFound = true;
+                    solutionFoundAtGeneration = iGeneration;
+                    lastFitness = fitness;
+                    log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness) + " *");
+                }
+                //if(iGeneration%1000==0)
+                //    log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness));
+                myPopulation = Algorithm.evolvePopulation(myPopulation);
             }
-            if(i%1000==0)
-                log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fittess));
-            myPopulation = Algorithm.evolvePopulation(myPopulation);
+
+            if(isSolutionFound) {
+                double executionTime = (double)(endTime-startTime)/1e9 ;
+                Individual fittestPopulation = myPopulation.getFittest();
+                log("\nSolution found :)");
+                log("At generation: " + solutionFoundAtGeneration);
+                log("Fitness: " + fittestPopulation.getFitness());
+                log("Cost: " + fittestPopulation.getCost());
+                log("Execution Time: " + executionTime);
+                log("Genes:");
+                log(Utility.printSystem(fittestPopulation.toBooleans()));
+
+
+                resultIndividual[iRun] = fittestPopulation;
+                resultGeneration[iRun] = solutionFoundAtGeneration;
+                resultTime[iRun] = executionTime;
+
+
+            } else {
+                log("\nNot found any feasible solution :(");
+            }
         }
 
-        if(isSolutionFound) {
-            Individual fittestPopulation = myPopulation.getFittest();
-            log("\nSolution found :)");
-            log("At generation: " + bestGeneration);
-            log("Fitness: " + fittestPopulation.getFitness());
-            log("Cost: " + fittestPopulation.getCost());
-            log("Genes:");
-            log(Utility.printSystem(fittestPopulation.toBooleans()));
-        } else {
-            log("\nNot found any feasible solution :(");
-        }
-
+        log(Utility.printReport(resultIndividual, resultGeneration, resultTime) );
 
     }
 }
