@@ -15,6 +15,7 @@ public class Main {
 
         for (int iRun = 0; iRun < n; iRun++) {
 
+            log("\nRun: " + iRun+1);
 
             double fitness = 0;
             double lastFitness = fitness;
@@ -62,7 +63,7 @@ public class Main {
 
             } else {
                 log("\nNot found any feasible solution :(");
-                log("\nLet's try again!");
+                log("Let's try again!");
                 iRun--;
 
             }
