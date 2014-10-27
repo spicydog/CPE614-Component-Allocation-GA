@@ -20,7 +20,7 @@ public class Config {
 
 
     // Problem Parameters
-    static double maxCost = 180;
+    static double maxCost = 240;
 
     static int nSubsystem = 6;
     static int nHardware = 3;

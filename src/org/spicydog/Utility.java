@@ -72,12 +72,12 @@ public class Utility {
             int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
             int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
 
-            result += String.format("S%d: {H:%d,V:%d},",i+1,selectedHardware+1,selectedSoftware+1);
+            result += String.format("S%d:{H%d,V%d}, ",i+1,selectedHardware+1,selectedSoftware+1);
         }
         result += "]";
 
-        result = result.replace(",]","]");
-        result = result.replace(",}","}");
+        result = result.replace(", ]","]");
+        result = result.replace(", }","}");
 
         return result;
     }
