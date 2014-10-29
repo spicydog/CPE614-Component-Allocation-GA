@@ -30,14 +30,24 @@ public class Calculator {
     // Calculate inidividuals fittness by comparing it to our candidate solution
     static double getFitness(Individual individual) {
 
-        double fitness = 1;
-
         // If cost over constrain, use penalty
         double penalty = 1;
         if(!isPassConstrain(individual)) {
             penalty = 1/Math.pow(10,individual.getCost()-Config.maxCost);
+        } else {
+            // TODO Find an equation which will make algorithm choose lower cost but same as better fittest
+            //penalty = Math.pow(10,Config.maxCost-individual.getCost());
         }
 
+        double reliability = getReliability(individual);
+
+        return reliability * penalty;
+    }
+
+
+    static double getReliability(Individual individual) {
+
+        double fitness = 1;
 
         int n = Config.nSubsystem;
 
@@ -51,7 +61,9 @@ public class Calculator {
             fitness *= Config.reliability[indexHardware] * Config.reliability[indexSoftware];
         }
 
-        return fitness * penalty;
+        return fitness;
     }
+
+
 
 }

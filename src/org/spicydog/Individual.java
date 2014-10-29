@@ -62,6 +62,11 @@ public class Individual {
         return fitness;
     }
 
+
+    public double getReliability() {
+        return Calculator.getReliability(this);
+    }
+
     public double getCost() {
         if (isCostChanged) {
             cost =  Calculator.getCost(this);

@@ -50,7 +50,7 @@ public class Main {
                 Individual fittestPopulation = myPopulation.getFittest();
                 log("\nSolution found :)");
                 log("At generation: " + solutionFoundAtGeneration);
-                log("Fitness: " + fittestPopulation.getFitness());
+                log("Reliability: " + fittestPopulation.getReliability());
                 log("Cost: " + fittestPopulation.getCost());
                 log("Execution Time: " + executionTime);
                 log("Genes:");

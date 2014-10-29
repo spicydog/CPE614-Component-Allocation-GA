@@ -52,7 +52,7 @@ public class Utility {
             result += String.format("%d\t%.6f\t" +
                             "%.2f\t%s\t" +
                             "%d\t%.6f\n",
-                    i + 1, individuals[i].getFitness(),
+                    i + 1, individuals[i].getReliability(),
                     individuals[i].getCost(), printComponentAllocation(individuals[i]),
                     generations[i], times[i]);
         }
