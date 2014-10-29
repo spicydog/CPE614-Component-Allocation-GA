@@ -32,8 +32,10 @@ public class Calculator {
 
         double fitness = 1;
 
+        // If cost over constrain, use penalty
+        double penalty = 1;
         if(!isPassConstrain(individual)) {
-            fitness = 0;//1/Math.pow(10,individual.getCost()-Config.maxCost);
+            penalty = 1/Math.pow(10,individual.getCost()-Config.maxCost);
         }
 
 
@@ -49,9 +51,7 @@ public class Calculator {
             fitness *= Config.reliability[indexHardware] * Config.reliability[indexSoftware];
         }
 
-
-
-        return fitness;
+        return fitness * penalty;
     }
 
 }

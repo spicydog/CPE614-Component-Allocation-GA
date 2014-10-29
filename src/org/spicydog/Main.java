@@ -34,7 +34,8 @@ public class Main {
                 fitness = myPopulation.getFittest().getFitness();
                 if(fitness>lastFitness) {
                     endTime = System.nanoTime();
-                    isSolutionFound = true;
+                    if(fitness>0.1)
+                        isSolutionFound = true;
                     solutionFoundAtGeneration = iGeneration;
                     lastFitness = fitness;
                     log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness) + " *");
