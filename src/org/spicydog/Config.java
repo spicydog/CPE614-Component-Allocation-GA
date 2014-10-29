@@ -7,9 +7,10 @@ public class Config {
 
     // Execution Parameters
     static int nRun = 10;
-    static int maxGeneration = 10000;
 
     // Genetic Algorithm Parameters
+    static int maxGeneration = 10000;
+
     static int geneLength = 24;
     static int populationSize = 25;
 
@@ -24,6 +25,8 @@ public class Config {
     static int nSubsystem = 6;
     static int nHardware = 3;
     static int nSoftware = 4;
+    static int nHardwareEncodingLength = 2;
+    static int nSoftwareEncodingLength = 2;
 
                                    // HW1    HW2    HW3       SW1    SW2    SW3    SW4
     static double[] reliability = {   0.995, 0.980, 0.980,    0.950, 0.908, 0.908, 0.950,   // Subsystem 1

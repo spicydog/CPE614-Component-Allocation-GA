@@ -8,32 +8,16 @@ import java.util.Random;
 
 public class Utility {
 
+    final private static int nEncodingLenght = Config.nHardwareEncodingLength + Config.nSoftwareEncodingLength;
+
     public static boolean randomBoolean() {
         int gene = randomInt(0, 1);
         return gene==1;
     }
 
-    /**
-     * Returns a pseudo-random number between min and max, inclusive.
-     * The difference between min and max can be at most
-     * <code>Integer.MAX_VALUE - 1</code>.
-     *
-     * @param min Minimum value
-     * @param max Maximum value.  Must be greater than min.
-     * @return Integer between min and max, inclusive.
-     * @see java.util.Random#nextInt(int)
-     */
     public static int randomInt(int min, int max) {
-
-        // NOTE: Usually this should be a field rather than a method
-        // variable so that it is not re-seeded every call.
         Random rand = new Random();
-
-        // nextInt is normally exclusive of the top value,
-        // so add 1 to make it inclusive
-        int randomNum = rand.nextInt((max - min) + 1) + min;
-
-        return randomNum;
+        return rand.nextInt((max - min) + 1) + min;
     }
 
 
@@ -66,8 +50,8 @@ public class Utility {
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
-            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght),individual.getGene(i*nEncodingLenght+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght+2),individual.getGene(i*nEncodingLenght+3)};
 
             int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
             int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);

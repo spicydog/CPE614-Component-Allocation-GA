@@ -6,6 +6,10 @@ package org.spicydog;
  */
 public class Calculator {
 
+    final private static int nHardware = Config.nHardware;
+    final private static int nComponent = Config.nHardware + Config.nSoftware;
+    final private static int nEncodingLenght = Config.nHardwareEncodingLength + Config.nSoftwareEncodingLength;
+
     static boolean isPassConstrain(Individual individual) {
         return individual.getCost() <= Config.maxCost;
     }
@@ -15,11 +19,11 @@ public class Calculator {
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
-            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght),individual.getGene(i*nEncodingLenght+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght+2),individual.getGene(i*nEncodingLenght+3)};
 
-            int indexHardware = i * 7 + Utility.convertBooleanToInt(hardwareGenes);
-            int indexSoftware = i * 7 + 3 + Utility.convertBooleanToInt(softwareGenes);
+            int indexHardware = i * nComponent + Utility.convertBooleanToInt(hardwareGenes);
+            int indexSoftware = i * nComponent + nHardware + Utility.convertBooleanToInt(softwareGenes);
 
             sumCost += Config.cost[indexHardware] + Config.cost[indexSoftware];
         }
@@ -32,16 +36,17 @@ public class Calculator {
 
         // If cost over constrain, use penalty
         double penalty = 1;
+        double bonus = 0;
         if(!isPassConstrain(individual)) {
             penalty = 1/Math.pow(10,individual.getCost()-Config.maxCost);
         } else {
-            // TODO Find an equation which will make algorithm choose lower cost but same as better fittest
-            //penalty = Math.pow(10,Config.maxCost-individual.getCost());
+            // TODO Find an equation which will make algorithm choose lower cost but same reliability as better fittest
+            bonus = Math.pow(10,(-10)*(Config.maxCost-individual.getCost()));
         }
 
         double reliability = getReliability(individual);
 
-        return reliability * penalty;
+        return reliability * penalty + bonus;
     }
 
 
@@ -52,11 +57,11 @@ public class Calculator {
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
-            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght),individual.getGene(i*nEncodingLenght+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght+2),individual.getGene(i*nEncodingLenght+3)};
 
-            int indexHardware = i * 7 + Utility.convertBooleanToInt(hardwareGenes);
-            int indexSoftware = i * 7 + 3 + Utility.convertBooleanToInt(softwareGenes);
+            int indexHardware = i * nComponent + Utility.convertBooleanToInt(hardwareGenes);
+            int indexSoftware = i * nComponent + nHardware + Utility.convertBooleanToInt(softwareGenes);
 
             fitness *= Config.reliability[indexHardware] * Config.reliability[indexSoftware];
         }

@@ -11,6 +11,8 @@ public class Algorithm {    /* GA parameters */
     private static int tournamentSize = Config.tournamentSize;
     private static int elitismOffset = Config.elitismSize;
 
+    final private static int nEncodingLenght = Config.nHardwareEncodingLength + Config.nSoftwareEncodingLength;
+
 
     /* Public methods */
 
@@ -105,7 +107,7 @@ public class Algorithm {    /* GA parameters */
         int n = Config.nSubsystem;
         for (int i = 0; i < n; i++) {
 
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght),individual.getGene(i*nEncodingLenght+1)};
             int hardwareComponent = Utility.convertBooleanToInt(hardwareGenes);
             if(hardwareComponent>=Config.nHardware) {
                 if(Utility.randomBoolean())

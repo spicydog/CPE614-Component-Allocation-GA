@@ -15,10 +15,10 @@ public class Main {
 
         for (int iRun = 0; iRun < n; iRun++) {
 
-            log("\nRun: " + iRun+1);
+            log("\nRun: " + (iRun+1));
 
-            double fitness = 0;
-            double lastFitness = fitness;
+            double fittest = 0;
+            double lastFitness = fittest;
             boolean isSolutionFound = false;
             int solutionFoundAtGeneration = 0;
 
@@ -31,17 +31,17 @@ public class Main {
             int generationCount = 0;
             for (int iGeneration = 0; iGeneration < Config.maxGeneration; iGeneration++) {
                 generationCount++;
-                fitness = myPopulation.getFittest().getFitness();
-                if(fitness>lastFitness) {
+                Individual fittestIndividual = myPopulation.getFittest();
+                fittest = fittestIndividual.getFitness();
+                if(fittest>lastFitness && Calculator.isPassConstrain(fittestIndividual)) {
+                    isSolutionFound = true;
                     endTime = System.nanoTime();
-                    if(fitness>0.1)
-                        isSolutionFound = true;
                     solutionFoundAtGeneration = iGeneration;
-                    lastFitness = fitness;
-                    log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness) + " *");
+                    lastFitness = fittest;
+                    log("New solution: " + generationCount + "\t\tReliability: " + String.format("%.6f", fittestIndividual.getReliability()) + " *");
                 }
                 if(iGeneration%1000==0)
-                    log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness));
+                    log("Generation: " + generationCount + "\t\tReliability: " + String.format("%.6f", fittestIndividual.getReliability()));
                 myPopulation = Algorithm.evolvePopulation(myPopulation);
             }
 
