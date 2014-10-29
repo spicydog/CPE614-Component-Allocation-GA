@@ -7,7 +7,6 @@ import static org.spicydog.Utility.log;
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
  */
 public class Algorithm {    /* GA parameters */
-    private static double uniformRate = Config.crossoverUniformRate;
     private static double mutationRate = Config.mutationRate;
     private static int tournamentSize = Config.tournamentSize;
     private static int elitismOffset = Config.elitismSize;
@@ -58,12 +57,16 @@ public class Algorithm {    /* GA parameters */
     // Crossover individuals 1
     public static Individual crossover(Individual indiv1, Individual indiv2) {
         Individual newSol = new Individual();
-        for (int i = 0; i < indiv1.size(); i++) {
+        int crossOverPosition = Utility.randomInt(0,newSol.size()/2);
+
+        for (int i = 0; i < indiv1.size()/2; i++) {
             // Crossover
-            if (Math.random() <= uniformRate) {
+            if(i<crossOverPosition) {
                 newSol.setGene(i, indiv1.getGene(i));
+                newSol.setGene(i+1, indiv1.getGene(i+1));
             } else {
                 newSol.setGene(i, indiv2.getGene(i));
+                newSol.setGene(i+1, indiv2.getGene(i+1));
             }
         }
 
@@ -101,16 +104,15 @@ public class Algorithm {    /* GA parameters */
 
         int n = Config.nSubsystem;
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
 
-            int indexHardware = Utility.convertBooleanToInt(hardwareGenes);
-            if(indexHardware>=Config.nHardware) {
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
+            int hardwareComponent = Utility.convertBooleanToInt(hardwareGenes);
+            if(hardwareComponent>=Config.nHardware) {
                 if(Utility.randomBoolean())
-                    individual.swapGene(i);
+                    individual.swapGene(i*4);
                 else
-                    individual.swapGene(i + 1);
+                    individual.swapGene(i*4 + 1);
             }
-
         }
 
         return individual;

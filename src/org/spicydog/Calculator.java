@@ -15,8 +15,8 @@ public class Calculator {
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
-            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
 
             int indexHardware = i * 7 + Utility.convertBooleanToInt(hardwareGenes);
             int indexSoftware = i * 7 + 3 + Utility.convertBooleanToInt(softwareGenes);
@@ -33,15 +33,15 @@ public class Calculator {
         double fitness = 1;
 
         if(!isPassConstrain(individual)) {
-            return 0;
+            fitness = 0;//1/Math.pow(10,individual.getCost()-Config.maxCost);
         }
 
 
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
-            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
 
             int indexHardware = i * 7 + Utility.convertBooleanToInt(hardwareGenes);
             int indexSoftware = i * 7 + 3 + Utility.convertBooleanToInt(softwareGenes);

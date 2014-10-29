@@ -66,8 +66,8 @@ public class Utility {
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
-            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
 
             int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
             int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
@@ -88,13 +88,13 @@ public class Utility {
         int n = Config.nSubsystem;
 
         for (int i = 0; i < n; i++) {
-            boolean[] hardwareGenes = new boolean[]{individual.getGene(i),individual.getGene(i+1)};
-            boolean[] softwareGenes = new boolean[]{individual.getGene(i+2),individual.getGene(i+3)};
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
 
             int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
             int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
 
-            result += String.format("S%d: H:%d V:%d\n",i+1,selectedHardware,selectedSoftware);
+            result += String.format("S%d: H:%d V:%d\n",i+1,selectedHardware+1,selectedSoftware+1);
         }
 
         return result;
