@@ -9,7 +9,7 @@ public class Individual {
     static int defaultGeneLength = Config.geneLength;
 
     private boolean[] genes = new boolean[defaultGeneLength];
-    // Cache
+    // Caching
     private double fitness = 0;
     private double cost = 0;
     private boolean isFitnessChanged;

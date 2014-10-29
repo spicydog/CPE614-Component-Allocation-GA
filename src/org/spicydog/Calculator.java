@@ -41,7 +41,7 @@ public class Calculator {
             penalty = 1/Math.pow(10,individual.getCost()-Config.maxCost);
         } else {
             // TODO Find an equation which will make algorithm choose lower cost but same reliability as better fittest
-            bonus = Math.pow(10,(-10)*(Config.maxCost-individual.getCost()));
+            // bonus = Math.pow(10,(-10)*(Config.maxCost-individual.getCost()));
         }
 
         double reliability = getReliability(individual);

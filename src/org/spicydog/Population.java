@@ -31,11 +31,13 @@ public class Population {
         return individuals[index];
     }
 
+    // Get the best individual
     public Individual getFittest() {
         int[] sortedIndexes = getSortedFitnessIndex();
         return individuals[sortedIndexes[0]];
     }
 
+    // Sort fitness index
     public int[] getSortedFitnessIndex() {
 
         int[] sortedIndexes = new int[size()];
@@ -60,7 +62,6 @@ public class Population {
         return sortedIndexes;
     }
 
-    /* Public methods */
     // Get population size
     public int size() {
         return individuals.length;
