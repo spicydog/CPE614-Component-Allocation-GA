@@ -9,7 +9,7 @@ public class Config {
     static int nRun = 10;
 
     // Genetic Algorithm Parameters
-    static int maxGeneration = 10000;
+    static int maxGeneration = 1000;
 
     static int geneLength = 24;
     static int populationSize = 25;
@@ -20,7 +20,7 @@ public class Config {
 
 
     // Problem Parameters
-    static double maxCost = 460;
+    static double maxCost = 220;
 
     static int nSubsystem = 6;
     static int nHardware = 3;
