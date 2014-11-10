@@ -6,10 +6,6 @@ package org.spicydog;
  */
 public class Calculator {
 
-    static boolean isPassConstrain(Individual individual) {
-        return individual.getCost() <= Config.maxCost;
-    }
-
     static double getCost(Individual individual) {
         double sumCost = 0;
         for (int i = 0; i < Config.geneLength; i++) {
@@ -19,46 +15,41 @@ public class Calculator {
         return sumCost;
     }
 
+
+    static double getWeight(Individual individual) {
+        double sumWeight = 0;
+        for (int i = 0; i < Config.geneLength; i++) {
+            if(individual.getGene(i))
+                sumWeight += Config.weight[i];
+        }
+        return sumWeight;
+    }
+
+    static int index(int x, int y) {
+        int index = 0;
+        for (int i = 0; i < Config.nSubsystem; i++) {
+            for (int j = 0; j < Config.subsystemSizes[i]; j++) {
+                if(i==x && j==y)
+                    break;
+                index++;
+            }
+        }
+        return index;
+    }
+
     // Calculate inidividuals fittness by comparing it to our candidate solution
     static double getFitness(Individual individual) {
         double fitness = 0;
-        // Loop through our individuals genes and compare them to our cadidates
-
-        if(!isPassConstrain(individual)) {
-            return 0;
-        }
-
-        double R = 1;
+        // Loop through our individuals genes and compare them to our candidates
+        double Rall = 1;
         for (int i = 0; i < Config.nSubsystem; i++) {
-
-            double Rhw = 1;
-            for (int j = 0; j < 3; j++) { // Hardware
-                int indexHardware = i * 7 + j;
-                boolean isHardwareSelected = individual.getGene(indexHardware);
-                if(isHardwareSelected) {
-                    double hardwareReliability = Config.reliability[indexHardware];
-                    Rhw *= (1-hardwareReliability);
-                }
+            double Ri = 1;
+            for (int j = 0; j < Config.subsystemSizes[i]; j++) {
+                Ri *= ( 1-Config.reliability[index(i,j)] );
             }
-            Rhw = 1-Rhw;
-
-
-            double Rsw = 1;
-            for (int k = 0; k < 4; k++) { // Software
-                int indexSoftware = i * 7 + 3 + k;
-                boolean isSoftwareSelected = individual.getGene(indexSoftware);
-                if (isSoftwareSelected) {
-                    double softwareReliability = Config.reliability[indexSoftware];
-                    Rsw *= (1-softwareReliability);
-                }
-            }
-            Rsw = 1-Rsw;
-
-            double Ri = Rhw * Rsw;
-            R *= Ri;
+            Rall *= Ri;
         }
-
-        fitness = R;
+        fitness = Rall;
 
         return fitness;
     }

@@ -109,85 +109,85 @@ public class Algorithm {    /* GA parameters */
 
     public static Individual repair(Individual individual) {
 
-        int[] counts = new int[individual.size()];
-        int count;
-        int nComponent = Config.nHardware + Config.nSoftware;
-        int nHardware = Config.nHardware;
-        int nSoftware = Config.nSoftware;
-        boolean isShouldRepair = false;
-        for (int i = 0; i < Config.nSubsystem; i++) {
-            // Hardware
-            count = 0;
-            for (int j = 0; j < nHardware; j++) {
-                int indexHardware = i * nComponent + j;
-                boolean isHardwareSelected = individual.getGene(indexHardware);
-                if(isHardwareSelected)
-                    count++;
-            }
-            for (int j = 0; j < nHardware; j++) {
-                int indexHardware = i * nComponent + j;
-                counts[indexHardware] = count;
-            }
-            if(count==0)
-                isShouldRepair = true;
-
-
-            // Software
-            count = 0;
-            for (int k = 0; k < nSoftware; k++) {
-                int indexSoftware = i * nComponent + nHardware + k;
-                boolean isSoftwareSelected = individual.getGene(indexSoftware);
-                if(isSoftwareSelected)
-                    count++;
-            }
-            for (int k = 0; k < nSoftware; k++) { // Software
-                int indexSoftware = i * nComponent + nHardware + k;
-                counts[indexSoftware] = count;
-            }
-            if(count==0)
-                isShouldRepair = true;
-        }
-
-        // There will be 3 cases here
-        // 1. Subsystem has no component, we should add a component
-        // 2. The cost is to high, we have to reduce components
-        // 3. Case 1 occurs then case 2 occurs
-
-        if(Calculator.isPassConstrain(individual) && !isShouldRepair) {
-            return individual;
-        } else {
-            double repairRate;
-            for (int i = 0; i < Config.nSubsystem; i++) {
-                // Hardware
-                for (int j = 0; j < nHardware; j++) {
-                    int indexHardware = i * nComponent + j;
-                    if(counts[indexHardware]==0) {
-                        repairRate = 1 / (double)Config.nHardware;
-                    } else if( counts[indexHardware]>=2) {
-                        repairRate = 1-1/(double)counts[indexHardware];
-                    } else {
-                        repairRate = 0;
-                    }
-                    if(Math.random() < repairRate) {
-                        individual.swapGene(indexHardware);
-                    }
-                }
-                // Software
-                for (int k = 0; k < nSoftware; k++) { // Software
-                    int indexSoftware = i * nComponent + nHardware + k;
-                    if(counts[indexSoftware]==0) {
-                        repairRate = 1 / (double)Config.nSoftware;
-                    } else if( counts[indexSoftware]>=2) {
-                        repairRate = 1-1/(double)counts[indexSoftware];
-                    } else {
-                        repairRate = 0;
-                    }
-                    if(Math.random() < repairRate) {
-                        individual.swapGene(indexSoftware);
-                    }
-                }
-            }
-        }
+//        int[] counts = new int[individual.size()];
+//        int count;
+//        int nComponent = Config.nHardware + Config.nSoftware;
+//        int nHardware = Config.nHardware;
+//        int nSoftware = Config.nSoftware;
+//        boolean isShouldRepair = false;
+//        for (int i = 0; i < Config.nSubsystem; i++) {
+//            // Hardware
+//            count = 0;
+//            for (int j = 0; j < nHardware; j++) {
+//                int indexHardware = i * nComponent + j;
+//                boolean isHardwareSelected = individual.getGene(indexHardware);
+//                if(isHardwareSelected)
+//                    count++;
+//            }
+//            for (int j = 0; j < nHardware; j++) {
+//                int indexHardware = i * nComponent + j;
+//                counts[indexHardware] = count;
+//            }
+//            if(count==0)
+//                isShouldRepair = true;
+//
+//
+//            // Software
+//            count = 0;
+//            for (int k = 0; k < nSoftware; k++) {
+//                int indexSoftware = i * nComponent + nHardware + k;
+//                boolean isSoftwareSelected = individual.getGene(indexSoftware);
+//                if(isSoftwareSelected)
+//                    count++;
+//            }
+//            for (int k = 0; k < nSoftware; k++) { // Software
+//                int indexSoftware = i * nComponent + nHardware + k;
+//                counts[indexSoftware] = count;
+//            }
+//            if(count==0)
+//                isShouldRepair = true;
+//        }
+//
+//        // There will be 3 cases here
+//        // 1. Subsystem has no component, we should add a component
+//        // 2. The cost is to high, we have to reduce components
+//        // 3. Case 1 occurs then case 2 occurs
+//
+//        if(Calculator.isPassConstrain(individual) && !isShouldRepair) {
+//            return individual;
+//        } else {
+//            double repairRate;
+//            for (int i = 0; i < Config.nSubsystem; i++) {
+//                // Hardware
+//                for (int j = 0; j < nHardware; j++) {
+//                    int indexHardware = i * nComponent + j;
+//                    if(counts[indexHardware]==0) {
+//                        repairRate = 1 / (double)Config.nHardware;
+//                    } else if( counts[indexHardware]>=2) {
+//                        repairRate = 1-1/(double)counts[indexHardware];
+//                    } else {
+//                        repairRate = 0;
+//                    }
+//                    if(Math.random() < repairRate) {
+//                        individual.swapGene(indexHardware);
+//                    }
+//                }
+//                // Software
+//                for (int k = 0; k < nSoftware; k++) { // Software
+//                    int indexSoftware = i * nComponent + nHardware + k;
+//                    if(counts[indexSoftware]==0) {
+//                        repairRate = 1 / (double)Config.nSoftware;
+//                    } else if( counts[indexSoftware]>=2) {
+//                        repairRate = 1-1/(double)counts[indexSoftware];
+//                    } else {
+//                        repairRate = 0;
+//                    }
+//                    if(Math.random() < repairRate) {
+//                        individual.swapGene(indexSoftware);
+//                    }
+//                }
+//            }
+//        }
         return individual;
 
     }

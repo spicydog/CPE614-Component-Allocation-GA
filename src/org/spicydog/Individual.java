@@ -12,8 +12,10 @@ public class Individual {
     // Cache
     private double fitness = 0;
     private double cost = 0;
+    private double weight = 0;
     private boolean isFitnessChanged;
     private boolean isCostChanged;
+    private boolean isWeightChanged;
 
     public Individual() {
         generateIndividual();
@@ -33,6 +35,7 @@ public class Individual {
         this.repair();
         isFitnessChanged = true;
         isCostChanged = true;
+        isWeightChanged = true;
         repair();
     }
 
@@ -44,6 +47,7 @@ public class Individual {
         genes[index] = value;
         isFitnessChanged = true;
         isCostChanged = true;
+        isWeightChanged = true;
     }
 
     public void swapGene(int index) {
@@ -68,6 +72,15 @@ public class Individual {
             isCostChanged = false;
         }
         return cost;
+    }
+
+
+    public double getWeight() {
+        if (isWeightChanged) {
+            weight =  Calculator.getWeight(this);
+            isCostChanged = false;
+        }
+        return weight;
     }
 
     @Override

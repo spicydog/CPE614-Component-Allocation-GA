@@ -6,11 +6,11 @@ package org.spicydog;
 public class Config {
 
     // Execution Parameters
-    static int nRun = 10;
-    static int maxGeneration = 10000;
+    static int nRun = 1;
+    static int maxGeneration = 1000;
 
     // Genetic Algorithm Parameters
-    static int geneLength = 42;
+    static int geneLength = 25;
     static int populationSize = 50;
 
     static int elitismSize = 3;
@@ -21,26 +21,36 @@ public class Config {
 
 
     // Problem Parameters
-    static double maxCost = 460;
+    static int[] subsystemSizes = {4,3,4,3,4,4,3};
+    static int nSubsystem = subsystemSizes.length; // 7
 
-    static int nSubsystem = 6;
-    static int nHardware = 3;
-    static int nSoftware = 4;
+                                 // COMP1   COMP2   COMP3   COMP4
+    static double[] reliability = { 0.90,   0.93,   0.91,   0.95,   // Subsystem 1
+                                    0.95,   0.94,   0.93,           // Subsystem 2
+                                    0.85,   0.90,   0.87,   0.92,   // Subsystem 3
+                                    0.83,   0.87,   0.85,           // Subsystem 4
+                                    0.94,   0.93,   0.95,   0.94,   // Subsystem 5
+                                    0.99,   0.98,   0.97,   0.96,   // Subsystem 6
+                                    0.91,   0.92,   0.94};          // Subsystem 7
 
-                                   // HW1    HW2    HW3       SW1    SW2    SW3    SW4
-    static double[] reliability = {   0.995, 0.980, 0.980,    0.950, 0.908, 0.908, 0.950,   // Subsystem 1
-                                      0.995, 0.995, 0.970,    0.965, 0.908, 0.887, 0.908,   // Subsystem 2
-                                      0.994, 0.995, 0.992,    0.978, 0.954, 0.860, 0.954,   // Subsystem 3
-                                      0.990, 0.980, 0.985,    0.950, 0.908, 0.910, 0.950,   // Subsystem 4
-                                      0.995, 0.980, 0.995,    0.905, 0.967, 0.967, 0.905,   // Subsystem 5
-                                      0.998, 0.995, 0.994,    0.908, 0.968, 0.968, 0.955};  // Subsystem 6
+                               // COMP1   COMP2   COMP3   COMP4
+    static double[] cost        = { 1,      1,      2,      4,      // Subsystem 1
+                                    4,      2,      1,              // Subsystem 2
+                                    2,      3,      1,      4,      // Subsystem 3
+                                    3,      4,      5,              // Subsystem 4
+                                    2,      2,      5,      2,      // Subsystem 5
+                                    6,      4,      2,      2,      // Subsystem 6
+                                    4,      4,      5};             // Subsystem 7
 
-                                   // HW1   HW2   HW3     SW1   SW2   SW3   SW4
-    static double[] cost        = {   30.0, 10.0, 10.0,   30.0, 10.0, 20.0, 30.0,   // Subsystem 1
-                                      30.0, 20.0, 10.0,   30.0, 20.0, 10.0, 20.0,   // Subsystem 2
-                                      20.0, 30.0,100.0,   20.0, 30.0, 20.0, 30.0,   // Subsystem 3
-                                      30.0, 10.0, 10.0,   20.0, 10.0, 20.0, 20.0,   // Subsystem 4
-                                      30.0, 20.0, 30.0,   30.0, 20.0, 10.0, 30.0,   // Subsystem 5
-                                      30.0, 20.0, 20.0,   10.0, 30.0, 20.0, 20.0};  // Subsystem 6
+
+
+                               // COMP1   COMP2   COMP3   COMP4
+    static double[] weight      = { 3,      4,      2,      5,      // Subsystem 1
+                                    8,      10,     9,              // Subsystem 2
+                                    7,      5,      6,      4,      // Subsystem 3
+                                    5,      6,      4,              // Subsystem 4
+                                    4,      3,      5,      4,      // Subsystem 5
+                                    5,      4,      5,      4,      // Subsystem 6
+                                    7,      8,      9};             // Subsystem 7
 
 }

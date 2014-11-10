@@ -53,7 +53,7 @@ public class Main {
                 log("Cost: " + fittestPopulation.getCost());
                 log("Execution Time: " + executionTime);
                 log("Genes:");
-                log(Utility.printSystem(fittestPopulation.toBooleans()));
+                //log(Utility.printSystem(fittestPopulation.toBooleans()));
 
 
                 resultIndividual[iRun] = fittestPopulation;
