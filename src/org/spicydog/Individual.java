@@ -89,7 +89,7 @@ public class Individual {
     public double getWeight() {
         if (isWeightChanged) {
             weight =  Calculator.getWeight(this);
-            isCostChanged = false;
+            isWeightChanged = false;
         }
         return weight;
     }
