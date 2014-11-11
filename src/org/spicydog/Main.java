@@ -51,6 +51,7 @@ public class Main {
                 log("At generation: " + solutionFoundAtGeneration);
                 log("Fitness: " + fittestPopulation.getFitness());
                 log("Cost: " + fittestPopulation.getCost());
+                log("Weight: " + fittestPopulation.getWeight());
                 log("Execution Time: " + executionTime);
                 log("Genes:");
                 //log(Utility.printSystem(fittestPopulation.toBooleans()));

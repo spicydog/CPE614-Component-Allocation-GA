@@ -6,6 +6,18 @@ package org.spicydog;
  */
 public class Calculator {
 
+    static int index(int x, int y) {
+        int index = 0;
+        for (int i = 0; i < Config.nSubsystem; i++) {
+            for (int j = 0; j < Config.subsystemSizes[i]; j++) {
+                if(i==x && j==y)
+                    return index;
+                index++;
+            }
+        }
+        return index;
+    }
+
     static double getCost(Individual individual) {
         double sumCost = 0;
         for (int i = 0; i < Config.geneLength; i++) {
@@ -25,17 +37,6 @@ public class Calculator {
         return sumWeight;
     }
 
-    static int index(int x, int y) {
-        int index = 0;
-        for (int i = 0; i < Config.nSubsystem; i++) {
-            for (int j = 0; j < Config.subsystemSizes[i]; j++) {
-                if(i==x && j==y)
-                    break;
-                index++;
-            }
-        }
-        return index;
-    }
 
     // Calculate inidividuals fittness by comparing it to our candidate solution
     static double getFitness(Individual individual) {
@@ -43,11 +44,13 @@ public class Calculator {
         // Loop through our individuals genes and compare them to our candidates
         double Rall = 1;
         for (int i = 0; i < Config.nSubsystem; i++) {
-            double Ri = 1;
+            double Fi = 1;
             for (int j = 0; j < Config.subsystemSizes[i]; j++) {
-                Ri *= ( 1-Config.reliability[index(i,j)] );
+                int index = index(i,j);
+                if(individual.getGene(index))
+                    Fi *= ( 1-Config.reliability[index] );
             }
-            Rall *= Ri;
+            Rall *= 1-Fi;
         }
         fitness = Rall;
 
