@@ -11,11 +11,13 @@ public class Individual {
     private boolean[] genes = new boolean[defaultGeneLength];
     // Cache
     private double fitness = 0;
+    private double reliability = 0;
     private double cost = 0;
     private double weight = 0;
     private boolean isFitnessChanged;
     private boolean isCostChanged;
     private boolean isWeightChanged;
+    private boolean isReliabilityChanged;
 
     public Individual() {
         generateIndividual();
@@ -33,6 +35,7 @@ public class Individual {
             genes[i] = Utility.randomBoolean();
         }
         this.repair();
+        isReliabilityChanged = true;
         isFitnessChanged = true;
         isCostChanged = true;
         isWeightChanged = true;
@@ -64,6 +67,14 @@ public class Individual {
             isFitnessChanged = false;
         }
         return fitness;
+    }
+
+    public double getReliability() {
+        if (isReliabilityChanged) {
+            reliability = Calculator.getReliability(this);
+            isReliabilityChanged = false;
+        }
+        return reliability;
     }
 
     public double getCost() {

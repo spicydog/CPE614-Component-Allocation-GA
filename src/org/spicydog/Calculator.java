@@ -38,10 +38,8 @@ public class Calculator {
     }
 
 
-    // Calculate inidividuals fittness by comparing it to our candidate solution
-    static double getFitness(Individual individual) {
+    static double getReliability(Individual individual) {
         double fitness = 0;
-        // Loop through our individuals genes and compare them to our candidates
         double Rall = 1;
         for (int i = 0; i < Config.nSubsystem; i++) {
             double Fi = 1;
@@ -54,6 +52,13 @@ public class Calculator {
         }
         fitness = Rall;
 
+        return fitness;
+    }
+
+    static double getFitness(Individual individual) {
+        double fitness =    + individual.getReliability() * Config.alpha
+                            + individual.getWeight() * Config.beta
+                            + individual.getCost() * Config.grammar;
         return fitness;
     }
 

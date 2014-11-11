@@ -17,7 +17,7 @@ public class Main {
 
             log("\nRun: " + iRun+1);
 
-            double fitness = 0;
+            double fitness = Double.MIN_VALUE;
             double lastFitness = fitness;
             boolean isSolutionFound = false;
             int solutionFoundAtGeneration = 0;
@@ -50,12 +50,12 @@ public class Main {
                 log("\nSolution found :)");
                 log("At generation: " + solutionFoundAtGeneration);
                 log("Fitness: " + fittestPopulation.getFitness());
+                log("Reliability: " + fittestPopulation.getReliability());
                 log("Cost: " + fittestPopulation.getCost());
                 log("Weight: " + fittestPopulation.getWeight());
                 log("Execution Time: " + executionTime);
                 log("Genes:");
                 log(Utility.printSystem(fittestPopulation.toBooleans()));
-
 
                 resultIndividual[iRun] = fittestPopulation;
                 resultGeneration[iRun] = solutionFoundAtGeneration;

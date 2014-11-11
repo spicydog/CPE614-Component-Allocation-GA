@@ -52,8 +52,8 @@ public class Utility {
             result += String.format("%d\t%.6f\t" +
                             "%.2f\t%s\t" +
                             "%d\t%.6f\n",
-                    i + 1, individuals[i].getFitness(),
-                    individuals[i].getCost(), printConponentAllocation(individuals[i]),
+                    i + 1, individuals[i].getReliability(),
+                    individuals[i].getCost(), printComponentAllocation(individuals[i]),
                     generations[i], times[i]);
         }
 
@@ -61,7 +61,7 @@ public class Utility {
 
     }
 
-    public static String printConponentAllocation(Individual individual) {
+    public static String printComponentAllocation(Individual individual) {
         String result = "[";
 
         for (int i = 0; i < Config.nSubsystem; i++) {

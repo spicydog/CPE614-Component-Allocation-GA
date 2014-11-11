@@ -21,6 +21,11 @@ public class Config {
 
 
     // Problem Parameters
+    static double alpha    =    0.4;  // Weight of system reliability
+    static double beta     =   -0.004; // Weight of system cost
+    static double grammar  =   -0.002; // Weight of system weight
+
+
     static int[] subsystemSizes = {4,3,4,3,4,4,3};
     static int nSubsystem = subsystemSizes.length; // 7
 
