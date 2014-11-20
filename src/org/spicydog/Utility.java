@@ -23,14 +23,14 @@ public class Utility {
 
     public static String printReport(Individual[] individuals, int[] generations, double[] times) {
         int n = individuals.length;
-        String result = "Run\tReliability(x)\t" +
-                        "Cost(x)\tGeneration\t" +
+        String result = "Run\tReliability\t" +
+                        "Cost\tWeight\tGeneration\t" +
                         "Computation Time (s)\tComponent Allocation\n";
         for (int i = 0; i < n; i++) {
-            result += String.format("%d\t%.6f\t\t%.2f\t" +
+            result += String.format("%d\t%.6f\t%.0f\t\t%.0f\t\t" +
                                     "%d\t\t\t%.6f\t\t\t\t%s\n",
                     i + 1, individuals[i].getReliability(),
-                    individuals[i].getCost(),
+                    individuals[i].getCost(), individuals[i].getWeight(),
                     generations[i], times[i], printComponentAllocation(individuals[i]));
         }
 

@@ -11,9 +11,9 @@ public class Config {
 
     // Genetic Algorithm Parameters
     static int geneLength = 25;
-    static int populationSize = 50;
+    static int populationSize = 15;
 
-    static int elitismSize = 3;
+    static int elitismSize = 2;
     static double crossoverRate = 0.8;
     static int tournamentSize = 10;
     static double crossoverUniformRate = 0.5;
@@ -21,9 +21,9 @@ public class Config {
 
 
     // Problem Parameters
-    static double alpha    = 0.2;  // Weight of system reliability
-    static double beta     = 0.4;  // Weight of system cost
-    static double grammar  = 0.4;  // Weight of system weight
+    static double alpha    = 0.8;  // Weight of system reliability
+    static double beta     = 0.1;  // Weight of system cost
+    static double gamma    = 0.1;  // Weight of system weight
 
 
     static int[] subsystemSizes = {4,3,4,3,4,4,3};
