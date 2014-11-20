@@ -57,8 +57,8 @@ public class Calculator {
 
     static double getFitness(Individual individual) {
         double fitness =    + individual.getReliability() * Config.alpha
-                            + individual.getWeight() * Config.beta
-                            + individual.getCost() * Config.grammar;
+                            + (1 - (individual.getWeight()/Config.totalWeight * Config.beta) )
+                            + (1 - (individual.getCost()/Config.totalWeight * Config.grammar) );
         return fitness;
     }
 

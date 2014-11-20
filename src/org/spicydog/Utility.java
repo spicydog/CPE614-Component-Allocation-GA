@@ -46,8 +46,8 @@ public class Utility {
     public static String printReport(Individual[] individuals, int[] generations, double[] times) {
         int n = individuals.length;
         String result = "Run\tReliability(x)\t" +
-                        "Cost(x)\tComponent Allocation\t" +
-                        "Generation\tComputation Time (s)\n";
+                        "Cost(x)\tGeneration\t" +
+                        "Computation Time (s)\tComponent Allocation\n";
         for (int i = 0; i < n; i++) {
             result += String.format("%d\t%.6f\t" +
                             "%.2f\t%s\t" +
@@ -114,6 +114,22 @@ public class Utility {
             result.append( bool ? "1":"0" );
         }
         return result.toString();
+    }
+
+    public static int sumArray(int[] values) {
+        int sum = 0;
+        for(int value : values) {
+            sum += value;
+        }
+        return sum;
+    }
+
+    public static double sumArray(double[] values) {
+        double sum = 0;
+        for(double value : values) {
+            sum += value;
+        }
+        return sum;
     }
 
 }

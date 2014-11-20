@@ -21,13 +21,14 @@ public class Config {
 
 
     // Problem Parameters
-    static double alpha    =    0.4;  // Weight of system reliability
-    static double beta     =   -0.004; // Weight of system cost
-    static double grammar  =   -0.002; // Weight of system weight
+    static double alpha    = 0.2;  // Weight of system reliability
+    static double beta     = 0.4;  // Weight of system cost
+    static double grammar  = 0.4;  // Weight of system weight
 
 
     static int[] subsystemSizes = {4,3,4,3,4,4,3};
     static int nSubsystem = subsystemSizes.length; // 7
+    static int totalComponent = Utility.sumArray(subsystemSizes);
 
                                  // COMP1   COMP2   COMP3   COMP4
     static double[] reliability = { 0.90,   0.93,   0.91,   0.95,   // Subsystem 1
@@ -47,7 +48,7 @@ public class Config {
                                     6,      4,      2,      2,      // Subsystem 6
                                     4,      4,      5};             // Subsystem 7
 
-
+    static double totalCost = Utility.sumArray(cost);
 
                                // COMP1   COMP2   COMP3   COMP4
     static double[] weight      = { 3,      4,      2,      5,      // Subsystem 1
@@ -58,4 +59,5 @@ public class Config {
                                     5,      4,      5,      4,      // Subsystem 6
                                     7,      8,      9};             // Subsystem 7
 
+    static double totalWeight = Utility.sumArray(weight);
 }
