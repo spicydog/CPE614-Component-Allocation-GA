@@ -27,12 +27,11 @@ public class Utility {
                         "Cost(x)\tGeneration\t" +
                         "Computation Time (s)\tComponent Allocation\n";
         for (int i = 0; i < n; i++) {
-            result += String.format("%d\t%.6f\t" +
-                            "%.2f\t%s\t" +
-                            "%d\t%.6f\n",
+            result += String.format("%d\t%.6f\t\t%.2f\t" +
+                                    "%d\t\t\t%.6f\t\t\t\t%s\n",
                     i + 1, individuals[i].getReliability(),
-                    individuals[i].getCost(), printComponentAllocation(individuals[i]),
-                    generations[i], times[i]);
+                    individuals[i].getCost(),
+                    generations[i], times[i], printComponentAllocation(individuals[i]));
         }
 
         return result;
