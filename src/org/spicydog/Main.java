@@ -8,10 +8,10 @@ public class Main {
     public static void main(String[] args) {
 
 
-        for (int x = 1; x <= 10; x++) {
-            for (int y = 0; y <= 10; y++) {
-                for (int z = 0; z <= 10; z++) {
-                    if(x+y+z==10) {
+        for (int x = 1; x <= 100; x++) {
+            for (int y = 0; y <= 100; y++) {
+                for (int z = 0; z <= 100; z++) {
+                    if(x+y+z==100) {
 
 
                         int n = Config.nRun;
@@ -19,9 +19,9 @@ public class Main {
                         double[] resultTime = new double[n];
                         Individual[] resultIndividual = new Individual[n];
 
-                        Config.alpha   = (double) x/10;
-                        Config.beta    = (double) y/10;
-                        Config.gamma = (double) z/10;
+                        Config.alpha   = (double) x/100;
+                        Config.beta    = (double) y/100;
+                        Config.gamma = (double) z/100;
 
 
                         for (int iRun = 0; iRun < n; iRun++) {
@@ -81,7 +81,7 @@ public class Main {
                             }
                         }
 
-                        log(String.format("%.1f %.1f %.1f",Config.alpha, Config.beta, Config.gamma));
+                        log(String.format("%.2f %.2f %.2f",Config.alpha, Config.beta, Config.gamma));
                         log(Utility.printReport(resultIndividual, resultGeneration, resultTime) );
                     }
                 }
