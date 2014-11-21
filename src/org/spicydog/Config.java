@@ -6,12 +6,12 @@ package org.spicydog;
 public class Config {
 
     // Execution Parameters
-    static int nRun = 1;
+    static int nRun = 10;
     static int maxGeneration = 1000;
 
     // Genetic Algorithm Parameters
     static int geneLength = 25;
-    static int populationSize = 15;
+    static int populationSize = 30;
 
     static int elitismSize = 2;
     static double crossoverRate = 0.8;

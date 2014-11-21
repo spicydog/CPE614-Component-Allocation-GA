@@ -14,10 +14,12 @@ public class Main {
         String strCost = "";
         String strWeight = "";
 
-        for (int x = 1; x <= 10; x++) {
-            for (int y = 0; y <= 10; y++) {
-                for (int z = 0; z <= 10; z++) {
-                    if(x+y+z==10) {
+        int step = 10;
+
+        for (int x = 1; x <= step; x++) {
+            for (int y = 0; y <= step; y++) {
+                for (int z = 0; z <= step; z++) {
+                    if(x+y+z==step) {
 
 
                         int n = Config.nRun;
@@ -25,9 +27,9 @@ public class Main {
                         double[] resultTime = new double[n];
                         Individual[] resultIndividual = new Individual[n];
 
-                        Config.alpha   = (double) x/10;
-                        Config.beta    = (double) y/10;
-                        Config.gamma = (double) z/10;
+                        Config.alpha   = (double) x/step;
+                        Config.beta    = (double) y/step;
+                        Config.gamma = (double) z/step;
 
                         double sumReliality = 0;
                         double sumCost = 0;
@@ -58,10 +60,11 @@ public class Main {
                                     isSolutionFound = true;
                                     solutionFoundAtGeneration = iGeneration;
                                     lastFitness = fitness;
-                                    //log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness) + " *");
+                                    log("New solution: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness) + " *");
                                 }
-                                if(iGeneration%1000==0)
-                                    //log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness));
+                                if(iGeneration%1000==0) {
+                                    log("Generation: " + generationCount + "\t\tFittest: " + String.format("%.6f",fitness));
+                                }
                                 myPopulation = Algorithm.evolvePopulation(myPopulation);
                             }
 
