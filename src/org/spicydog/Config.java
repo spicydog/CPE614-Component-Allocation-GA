@@ -6,7 +6,7 @@ package org.spicydog;
 public class Config {
 
     // Execution Parameters
-    static int nRun = 10;
+    static int nRun = 30;
     static int maxGeneration = 5000;
     static boolean enableRepairing = true;
 
@@ -23,9 +23,9 @@ public class Config {
 
 
     // Problem Parameters
-    static double alpha    = 0.2;  // Weight of system reliability
-    static double beta     = 0.4;  // Weight of system cost
-    static double gamma    = 0.4;  // Weight of system weight
+    static double alpha    = 0.5;  // Weight of system reliability
+    static double beta     = 0.3;  // Weight of system cost
+    static double gamma    = 0.2;  // Weight of system weight
 
 
     static int[] subsystemSizes = {4,3,4,3,4,4,3};
