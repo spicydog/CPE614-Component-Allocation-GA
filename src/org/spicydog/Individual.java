@@ -20,7 +20,16 @@ public class Individual {
     private boolean isReliabilityChanged;
 
     public Individual() {
-        generateIndividual();
+        randomIndividualGene();
+    }
+
+    public Individual(boolean[] initGenes) {
+        genes = initGenes;
+
+        isReliabilityChanged = true;
+        isFitnessChanged = true;
+        isCostChanged = true;
+        isWeightChanged = true;
     }
 
     public Individual(Individual individual) {
@@ -29,12 +38,10 @@ public class Individual {
         }
     }
 
-    // Create a random individual
-    public void generateIndividual() {
+    public void randomIndividualGene() {
         for (int i = 0; i < size(); i++) {
             genes[i] = Utility.randomBoolean();
         }
-        this.repair();
         isReliabilityChanged = true;
         isFitnessChanged = true;
         isCostChanged = true;
