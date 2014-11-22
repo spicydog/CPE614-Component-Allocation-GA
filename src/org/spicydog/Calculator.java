@@ -39,23 +39,24 @@ public class Calculator {
 
 
     static double getReliability(Individual individual) {
-        double fitness = 0;
-        double Rall = 1;
+        double rAll = 1;
         for (int i = 0; i < Config.nSubsystem; i++) {
-            double Fi = 1;
+            double rI = 1;
             for (int j = 0; j < Config.subsystemSizes[i]; j++) {
                 int index = index(i,j);
                 if(individual.getGene(index))
-                    Fi *= ( 1-Config.reliability[index] );
+                    rI *= ( 1-Config.reliability[index] );
             }
-            Rall *= 1-Fi;
+            rAll *= 1-rI;
         }
-        fitness = Rall;
-
-        return fitness;
+        return rAll;
     }
 
     static double getFitness(Individual individual) {
+        if(individual.getReliability()==0) {
+            return 0;
+        }
+
         double fitness =    + individual.getReliability() * Config.alpha
                             + (1 - (individual.getCost()/Config.totalCost)) * Config.beta
                             + (1 - (individual.getWeight()/Config.totalWeight)) * Config.gamma;

@@ -36,6 +36,15 @@ public class Population {
         return individuals[sortedIndexes[0]];
     }
 
+    public boolean isSameIndividual(int index1, int index2) {
+        for (int i = 0; i < individuals[index1].size(); i++) {
+            if(individuals[index1].getGene(i) != individuals[index2].getGene(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int[] getSortedFitnessIndex() {
 
         int[] sortedIndexes = new int[size()];

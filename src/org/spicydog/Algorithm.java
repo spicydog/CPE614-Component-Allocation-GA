@@ -10,6 +10,7 @@ public class Algorithm {    /* GA parameters */
     private static double mutationRate = Config.mutationRate;
     private static int tournamentSize = Config.tournamentSize;
     private static int elitismOffset = Config.elitismSize;
+    private static int eliminateSize = Config.eliminateSize;
 
 
     /* Public methods */
@@ -43,9 +44,10 @@ public class Algorithm {    /* GA parameters */
             newPopulation.saveIndividual(i, newIndividual);
         }
 
+
         // Random new individual on the worst offspring
-        for (int i = 0; i < 1; i++) {
-            int worstIndex = newPopulation.getSortedFitnessIndex()[newPopulation.size()-1];
+        for (int i = 0; i < eliminateSize; i++) {
+            int worstIndex = newPopulation.getSortedFitnessIndex()[newPopulation.size()-(i+1)];
             newPopulation.saveIndividual(worstIndex, new Individual());
         }
 

@@ -7,7 +7,7 @@ public class Config {
 
     // Execution Parameters
     static int nRun = 10;
-    static int maxGeneration = 1000;
+    static int maxGeneration = 5000;
     static boolean enableRepairing = true;
 
     // Genetic Algorithm Parameters
@@ -15,15 +15,17 @@ public class Config {
     static int populationSize = 50;
 
     static int elitismSize = 3;
+    static int eliminateSize = 10;
+
     static double crossoverRate = 0.8;
-    static int tournamentSize = 20;
-    static double mutationRate = 0.015;
+    static int tournamentSize = 5;
+    static double mutationRate = 0.2;
 
 
     // Problem Parameters
-    static double alpha    = 0.6;  // Weight of system reliability
-    static double beta     = 0.2;  // Weight of system cost
-    static double gamma    = 0.2;  // Weight of system weight
+    static double alpha    = 0.2;  // Weight of system reliability
+    static double beta     = 0.4;  // Weight of system cost
+    static double gamma    = 0.4;  // Weight of system weight
 
 
     static int[] subsystemSizes = {4,3,4,3,4,4,3};

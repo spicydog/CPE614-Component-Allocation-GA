@@ -19,7 +19,7 @@ public class GeneticAlgorithm {
 
             for (int iRun = 0; iRun < n; iRun++) {
 
-                //log("\nRun: " + iRun+1);
+                log(String.format("\nRun: %d",iRun+1));
 
                 double fitness = Double.MIN_VALUE;
                 double lastFitness = fitness;
