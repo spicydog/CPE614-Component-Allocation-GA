@@ -106,22 +106,21 @@ public class Algorithm {    /* GA parameters */
 
 
     public static Individual repair(Individual individual) {
-
-        for (int i = 0; i < Config.nSubsystem; i++) {
-            int count = 0;
-            int subSystemSize = Config.subsystemSizes[i];
-            for (int j = 0; j < subSystemSize; j++) {
-                int index = Calculator.index(i,j);
-                if(individual.getGene(index))
-                    count++;
-            }
-            if(count==0) {
-                int index = Calculator.index(i, Utility.randomInt(0,subSystemSize-1));
-                individual.setGene(index,true);
+        if(Config.enableRepairing) {
+            for (int i = 0; i < Config.nSubsystem; i++) {
+                int count = 0;
+                int subSystemSize = Config.subsystemSizes[i];
+                for (int j = 0; j < subSystemSize; j++) {
+                    int index = Calculator.index(i, j);
+                    if (individual.getGene(index))
+                        count++;
+                }
+                if (count == 0) {
+                    int index = Calculator.index(i, Utility.randomInt(0, subSystemSize - 1));
+                    individual.setGene(index, true);
+                }
             }
         }
-
         return individual;
-
     }
 }
