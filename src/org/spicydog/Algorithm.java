@@ -7,7 +7,6 @@ import static org.spicydog.Utility.log;
  * Based on http://www.theprojectspot.com/tutorial-post/creating-a-genetic-algorithm-for-beginners/3
  */
 public class Algorithm {    /* GA parameters */
-    private static double uniformRate = Config.crossoverUniformRate;
     private static double mutationRate = Config.mutationRate;
     private static int tournamentSize = Config.tournamentSize;
     private static int elitismOffset = Config.elitismSize;
@@ -45,8 +44,10 @@ public class Algorithm {    /* GA parameters */
         }
 
         // Random new individual on the worst offspring
-        int worstIndex = newPopulation.getSortedFitnessIndex()[newPopulation.size()-1];
-        newPopulation.saveIndividual(worstIndex, new Individual());
+        for (int i = 0; i < 1; i++) {
+            int worstIndex = newPopulation.getSortedFitnessIndex()[newPopulation.size()-1];
+            newPopulation.saveIndividual(worstIndex, new Individual());
+        }
 
         return newPopulation;
     }
@@ -54,26 +55,20 @@ public class Algorithm {    /* GA parameters */
     // Crossover individuals 1
     public static Individual crossover(Individual indiv1, Individual indiv2) {
         Individual newSol = new Individual();
+
         if(Math.random() <= Config.crossoverRate) {
+            int crossoverIndex = Utility.randomInt(0,Config.geneLength-1);
             // Loop through genes
             for (int i = 0; i < indiv1.size(); i++) {
                 // Crossover
-                if (Math.random() <= uniformRate) {
+                if(i<crossoverIndex) {
                     newSol.setGene(i, indiv1.getGene(i));
                 } else {
                     newSol.setGene(i, indiv2.getGene(i));
                 }
             }
         } else {
-            double fitness1 = indiv1.getFitness();
-            double fitness2 = indiv2.getFitness();
-            if( fitness1 > fitness2 ) {
-                newSol = indiv1;
-            } else if( fitness1 < fitness2) {
-                newSol= indiv2;
-            } else {
-                newSol = indiv1.getCost() < indiv2.getCost() ? indiv1 : indiv2;
-            }
+            newSol = indiv1.getFitness() > indiv2.getFitness() ? indiv1 : indiv2;
         }
         return newSol;
     }
