@@ -31,13 +31,20 @@ public class Population {
         return individuals[index];
     }
 
-    // Get the best individual
     public Individual getFittest() {
         int[] sortedIndexes = getSortedFitnessIndex();
         return individuals[sortedIndexes[0]];
     }
 
-    // Sort fitness index
+    public boolean isSameIndividual(int index1, int index2) {
+        for (int i = 0; i < individuals[index1].size(); i++) {
+            if(individuals[index1].getGene(i) != individuals[index2].getGene(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int[] getSortedFitnessIndex() {
 
         int[] sortedIndexes = new int[size()];
@@ -62,6 +69,7 @@ public class Population {
         return sortedIndexes;
     }
 
+    /* Public methods */
     // Get population size
     public int size() {
         return individuals.length;

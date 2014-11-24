@@ -9,14 +9,27 @@ public class Individual {
     static int defaultGeneLength = Config.geneLength;
 
     private boolean[] genes = new boolean[defaultGeneLength];
-    // Caching
+    // Cache
     private double fitness = 0;
+    private double reliability = 0;
     private double cost = 0;
+    private double weight = 0;
     private boolean isFitnessChanged;
     private boolean isCostChanged;
+    private boolean isWeightChanged;
+    private boolean isReliabilityChanged;
 
     public Individual() {
-        generateIndividual();
+        randomIndividualGene();
+    }
+
+    public Individual(boolean[] initGenes) {
+        genes = initGenes;
+
+        isReliabilityChanged = true;
+        isFitnessChanged = true;
+        isCostChanged = true;
+        isWeightChanged = true;
     }
 
     public Individual(Individual individual) {
@@ -25,14 +38,14 @@ public class Individual {
         }
     }
 
-    // Create a random individual
-    public void generateIndividual() {
+    public void randomIndividualGene() {
         for (int i = 0; i < size(); i++) {
             genes[i] = Utility.randomBoolean();
         }
-        this.repair();
+        isReliabilityChanged = true;
         isFitnessChanged = true;
         isCostChanged = true;
+        isWeightChanged = true;
         repair();
     }
 
@@ -44,6 +57,7 @@ public class Individual {
         genes[index] = value;
         isFitnessChanged = true;
         isCostChanged = true;
+        isWeightChanged = true;
     }
 
     public void swapGene(int index) {
@@ -62,9 +76,12 @@ public class Individual {
         return fitness;
     }
 
-
     public double getReliability() {
-        return Calculator.getReliability(this);
+        if (isReliabilityChanged) {
+            reliability = Calculator.getReliability(this);
+            isReliabilityChanged = false;
+        }
+        return reliability;
     }
 
     public double getCost() {
@@ -73,6 +90,15 @@ public class Individual {
             isCostChanged = false;
         }
         return cost;
+    }
+
+
+    public double getWeight() {
+        if (isWeightChanged) {
+            weight =  Calculator.getWeight(this);
+            isWeightChanged = false;
+        }
+        return weight;
     }
 
     @Override
