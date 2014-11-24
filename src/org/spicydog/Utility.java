@@ -8,30 +8,37 @@ import java.util.Random;
 
 public class Utility {
 
+    final private static int nEncodingLenght = Config.nHardwareEncodingLength + Config.nSoftwareEncodingLength;
+
+    public static boolean randomBoolean() {
+        int gene = randomInt(0, 1);
+        return gene==1;
+    }
+
     public static int randomInt(int min, int max) {
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;
     }
 
-    public static boolean randomBoolean() {
-        return randomInt(0,1)==1;
-    }
 
     public static void log(String msg) {
         System.out.println(msg);
     }
 
+
+
     public static String printReport(Individual[] individuals, int[] generations, double[] times) {
         int n = individuals.length;
-        String result = "Run\tFitness\t\tReliability\t" +
-                        "Cost\tWeight\tGeneration\t" +
-                        "Computation Time (s)\tComponent Allocation\n";
+        String result = "Run\tReliability(x)\t" +
+                        "Cost(x)\tComponent Allocation\t" +
+                        "Generation\tComputation Time (s)\n";
         for (int i = 0; i < n; i++) {
-            result += String.format("%d\t%.6f\t%.6f\t%.0f\t\t%.0f\t\t" +
-                                    "%d\t\t\t%.6f\t\t\t\t%s\n",
-                    i + 1, individuals[i].getFitness(), individuals[i].getReliability(),
-                    individuals[i].getCost(), individuals[i].getWeight(),
-                    generations[i], times[i], printComponentAllocation(individuals[i]));
+            result += String.format("%d\t%.6f\t" +
+                            "%.2f\t%s\t" +
+                            "%d\t%.6f\n",
+                    i + 1, individuals[i].getReliability(),
+                    individuals[i].getCost(), printComponentAllocation(individuals[i]),
+                    generations[i], times[i]);
         }
 
         return result;
@@ -40,39 +47,52 @@ public class Utility {
 
     public static String printComponentAllocation(Individual individual) {
         String result = "[";
+        int n = Config.nSubsystem;
 
-        for (int i = 0; i < Config.nSubsystem; i++) {
-            result += String.format("%d:{",i);
-            for (int j = 0; j < Config.subsystemSizes[i]; j++) {
-                int index = Calculator.index(i,j);
-                if(individual.getGene(index))
-                    result += String.format("%d,",j);
-            }
-            result += "},";
+        for (int i = 0; i < n; i++) {
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght),individual.getGene(i*nEncodingLenght+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght+2),individual.getGene(i*nEncodingLenght+3)};
+
+            int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
+            int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
+
+            result += String.format("S%d:{H%d,V%d}, ",i+1,selectedHardware+1,selectedSoftware+1);
         }
-
         result += "]";
 
-        result = result.replace(",]","]");
-        result = result.replace(",}","}");
+        result = result.replace(", ]","]");
+        result = result.replace(", }","}");
 
         return result;
     }
 
-    public static String printSystem(boolean[] system) {
+    public static String printSystem(Individual individual) {
 
+        String result = "";
+        int n = Config.nSubsystem;
 
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < Config.nSubsystem; i++) {
-            for (int j = 0; j < Config.subsystemSizes[i]; j++) {
-                int index = Calculator.index(i,j);
-                output.append( system[index]?"1":"0");
-            }
-            output.append(" ");
+        for (int i = 0; i < n; i++) {
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*4),individual.getGene(i*4+1)};
+            boolean[] softwareGenes = new boolean[]{individual.getGene(i*4+2),individual.getGene(i*4+3)};
+
+            int selectedHardware = Utility.convertBooleanToInt(hardwareGenes);
+            int selectedSoftware = Utility.convertBooleanToInt(softwareGenes);
+
+            result += String.format("S%d: H:%d V:%d\n",i+1,selectedHardware+1,selectedSoftware+1);
         }
-        output.append("\n");
 
-        return output.toString();
+        return result;
+
+    }
+
+
+    public static int convertBooleanToInt(boolean[] bool) {
+        int sum = 0;
+        for (int i = bool.length-1; i >= 0; i--) {
+            if(bool[i])
+                sum += (int)Math.pow(2,i);
+        }
+        return sum;
     }
 
     public static boolean[] convertStringToBoolean(String str) {
@@ -91,22 +111,6 @@ public class Utility {
             result.append( bool ? "1":"0" );
         }
         return result.toString();
-    }
-
-    public static int sumArray(int[] values) {
-        int sum = 0;
-        for(int value : values) {
-            sum += value;
-        }
-        return sum;
-    }
-
-    public static double sumArray(double[] values) {
-        double sum = 0;
-        for(double value : values) {
-            sum += value;
-        }
-        return sum;
     }
 
 }

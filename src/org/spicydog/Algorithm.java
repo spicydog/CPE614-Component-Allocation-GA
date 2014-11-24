@@ -10,7 +10,8 @@ public class Algorithm {    /* GA parameters */
     private static double mutationRate = Config.mutationRate;
     private static int tournamentSize = Config.tournamentSize;
     private static int elitismOffset = Config.elitismSize;
-    private static int eliminateSize = Config.eliminateSize;
+
+    final private static int nEncodingLenght = Config.nHardwareEncodingLength + Config.nSoftwareEncodingLength;
 
 
     /* Public methods */
@@ -38,6 +39,8 @@ public class Algorithm {    /* GA parameters */
 
         // Mutate population
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
+            // Some unknown programming issues make me needs to create new individual to avoid bugs.
+            // This is what it should look like "newPopulation.getIndividual(i).mutate();"
             Individual newIndividual = new Individual(newPopulation.getIndividual(i));
             newIndividual.mutate();
             newIndividual.repair();
@@ -46,10 +49,9 @@ public class Algorithm {    /* GA parameters */
 
 
         // Random new individual on the worst offspring
-        for (int i = 0; i < eliminateSize; i++) {
-            int worstIndex = newPopulation.getSortedFitnessIndex()[newPopulation.size()-(i+1)];
-            newPopulation.saveIndividual(worstIndex, new Individual());
-        }
+        int[] worstIndexes = newPopulation.getSortedFitnessIndex();
+        newPopulation.saveIndividual(worstIndexes[newPopulation.size()-1], new Individual());
+
 
         return newPopulation;
     }
@@ -57,21 +59,19 @@ public class Algorithm {    /* GA parameters */
     // Crossover individuals 1
     public static Individual crossover(Individual indiv1, Individual indiv2) {
         Individual newSol = new Individual();
+        int crossOverPosition = Utility.randomInt(0,newSol.size()/2);
 
-        if(Math.random() <= Config.crossoverRate) {
-            int crossoverIndex = Utility.randomInt(0,Config.geneLength-1);
-            // Loop through genes
-            for (int i = 0; i < indiv1.size(); i++) {
-                // Crossover
-                if(i<crossoverIndex) {
-                    newSol.setGene(i, indiv1.getGene(i));
-                } else {
-                    newSol.setGene(i, indiv2.getGene(i));
-                }
+        for (int i = 0; i < indiv1.size()/2; i++) {
+            // Crossover
+            if(i<crossOverPosition) {
+                newSol.setGene(i, indiv1.getGene(i));
+                newSol.setGene(i+1, indiv1.getGene(i+1));
+            } else {
+                newSol.setGene(i, indiv2.getGene(i));
+                newSol.setGene(i+1, indiv2.getGene(i+1));
             }
-        } else {
-            newSol = indiv1.getFitness() > indiv2.getFitness() ? indiv1 : indiv2;
         }
+
         return newSol;
     }
 
@@ -103,21 +103,21 @@ public class Algorithm {    /* GA parameters */
 
 
     public static Individual repair(Individual individual) {
-        if(Config.enableRepairing) {
-            for (int i = 0; i < Config.nSubsystem; i++) {
-                int count = 0;
-                int subSystemSize = Config.subsystemSizes[i];
-                for (int j = 0; j < subSystemSize; j++) {
-                    int index = Calculator.index(i, j);
-                    if (individual.getGene(index))
-                        count++;
-                }
-                if (count == 0) {
-                    int index = Calculator.index(i, Utility.randomInt(0, subSystemSize - 1));
-                    individual.setGene(index, true);
-                }
+
+        int n = Config.nSubsystem;
+        for (int i = 0; i < n; i++) {
+
+            boolean[] hardwareGenes = new boolean[]{individual.getGene(i*nEncodingLenght),individual.getGene(i*nEncodingLenght+1)};
+            int hardwareComponent = Utility.convertBooleanToInt(hardwareGenes);
+            if(hardwareComponent>=Config.nHardware) {
+                if(Utility.randomBoolean())
+                    individual.swapGene(i*4);
+                else
+                    individual.swapGene(i*4 + 1);
             }
         }
+
         return individual;
+
     }
 }
